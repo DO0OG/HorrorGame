@@ -84,7 +84,7 @@ MonoBehaviour:
     m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.25
+    m_Value: 0.35
   clamp:
     m_OverrideState: 0
     m_Value: 0.05
@@ -103,7 +103,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.25
+    m_Value: 0.35
   xMultiplier:
     m_OverrideState: 1
     m_Value: 1
@@ -146,13 +146,13 @@ MonoBehaviour:
     m_Value: 0
   focusDistance:
     m_OverrideState: 1
-    m_Value: 3.8135433
+    m_Value: 50.21488
   aperture:
     m_OverrideState: 1
-    m_Value: 5.4
+    m_Value: 10
   focalLength:
-    m_OverrideState: 0
-    m_Value: 160
+    m_OverrideState: 1
+    m_Value: 100
   bladeCount:
     m_OverrideState: 0
     m_Value: 5
@@ -273,7 +273,7 @@ MonoBehaviour:
     m_Value: 0.515
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.085
+    m_Value: 0.15
   rounded:
     m_OverrideState: 1
     m_Value: 0
