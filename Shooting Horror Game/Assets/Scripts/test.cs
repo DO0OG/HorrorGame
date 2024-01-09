@@ -5,6 +5,7 @@ using UnityEngine;
 public class test : MonoBehaviour
 {
     public Animator anim;
+    public Camera mainCam;
 
     public bool rightClick = false;
 
@@ -12,6 +13,7 @@ public class test : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        mainCam = Camera.main;
     }
 
     // Update is called once per frame
@@ -20,10 +22,12 @@ public class test : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1))
         {
             rightClick = true;
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 32.5f, 0.025f);
         }
         else
         {
             rightClick = false;
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 60f, 0.025f);
         }
 
         anim.SetBool("Aim", rightClick);

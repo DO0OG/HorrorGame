@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.25
 --- !u!114 &-8008894566182529596
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -37,15 +37,15 @@ MonoBehaviour:
     m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 5
   scatter:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.475
   clamp:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 65472
   tint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   highQualityFiltering:
     m_OverrideState: 1
@@ -105,16 +105,16 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 0.4
   xMultiplier:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   yMultiplier:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   center:
     m_OverrideState: 0
     m_Value: {x: 0, y: 0}
   scale:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
 --- !u!114 &-871733664122667503
 MonoBehaviour:
@@ -131,33 +131,33 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   gaussianStart:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 10
   gaussianEnd:
-    m_OverrideState: 0
-    m_Value: 30
+    m_OverrideState: 1
+    m_Value: 15
   gaussianMaxRadius:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   highQualitySampling:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   focusDistance:
     m_OverrideState: 1
-    m_Value: 28.492838
+    m_Value: 6.509115
   aperture:
-    m_OverrideState: 0
-    m_Value: 10
+    m_OverrideState: 1
+    m_Value: 1
   focalLength:
-    m_OverrideState: 0
-    m_Value: 85
+    m_OverrideState: 1
+    m_Value: 50
   bladeCount:
-    m_OverrideState: 0
-    m_Value: 5
+    m_OverrideState: 1
+    m_Value: 9
   bladeCurvature:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   bladeRotation:
     m_OverrideState: 0
@@ -218,10 +218,10 @@ MonoBehaviour:
   - {fileID: -8008894566182529596}
   - {fileID: -8906212550398437055}
   - {fileID: -595423392555656672}
+  - {fileID: 4342805556848116466}
   - {fileID: 7877922473210124502}
   - {fileID: -871733664122667503}
   - {fileID: 864802247824492914}
-  - {fileID: 4342805556848116466}
   - {fileID: -5030461673294444470}
   - {fileID: -5337282428891815197}
 --- !u!114 &864802247824492914
@@ -266,13 +266,13 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
   center:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
     m_Value: 0.45
   smoothness:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.1
   rounded:
     m_OverrideState: 1
@@ -295,12 +295,12 @@ MonoBehaviour:
     m_Value: -0.8
   contrast:
     m_OverrideState: 1
-    m_Value: -5
+    m_Value: -15
   colorFilter:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   saturation:
     m_OverrideState: 1

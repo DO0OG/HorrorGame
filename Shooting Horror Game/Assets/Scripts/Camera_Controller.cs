@@ -4,25 +4,35 @@ using UnityEngine;
 
 public class Camera_Controller : MonoBehaviour
 {
-    [Header("Object")]
-    public GameObject goFollow;
-    public GameObject camPos;
-
-    [Header("Vector3")]
-    public Vector3 vectOffset;
+    [Header("Transform")]
+    [SerializeField] private Transform character;
 
     [Header("Force")]
-    public float speed = 1.0f;
+    public float sensitivity = 2;
+    public float smoothing = 1.5f;
+
+    [Header("Velocity")]
+    Vector2 velocity;
+    Vector2 frameVelocity;
 
     void Start()
     {
-        vectOffset = transform.position - goFollow.transform.position;
     }
 
     void Update()
     {
-        vectOffset = transform.position - goFollow.transform.position;
-        transform.position = camPos.transform.position;
-        transform.rotation = Quaternion.Slerp(transform.rotation, goFollow.transform.rotation, speed * Time.deltaTime);
+        Control();
+    }
+
+    private void Control()
+    {
+        Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
+        frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
+        velocity += frameVelocity;
+        velocity.y = Mathf.Clamp(velocity.y, -35, 60);
+
+        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.forward);
+        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
     }
 }

@@ -158,12 +158,12 @@ public class Camera_Movement : MonoBehaviour
         bool isSprint = false;
         bool isMove = false;
 
-        if (Input.GetKey(KeyCode.Q) && !leftBlocked && isJump && !isSprint)
+        if (Input.GetKey(KeyCode.Q))
         {
             //왼쪽
             ApplyPeekTransform(peekLeft);
         }
-        else if (Input.GetKey(KeyCode.E) && !rightBlocked && isJump && !isSprint)
+        else if (Input.GetKey(KeyCode.E))
         {
             //오른쪽
             ApplyPeekTransform(peekRight);

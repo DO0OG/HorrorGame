@@ -4,32 +4,30 @@ using UnityEngine;
 
 public class Camera_Follow : MonoBehaviour
 {
-    [Header("Transform")]
-    [SerializeField] private Transform character;
+    [Header("Object")]
+    public GameObject goFollow;
+    public GameObject camPos;
+
+    [Header("Vector3")]
+    public Vector3 vectOffset;
 
     [Header("Force")]
-    public float sensitivity = 2;
-    public float smoothing = 1.5f;
-
-    [Header("Velocity")]
-    Vector2 velocity;
-    Vector2 frameVelocity;
+    public float speed = 1.0f;
 
     void Start()
     {
-        // Lock the mouse cursor to the game screen.
-        Cursor.lockState = CursorLockMode.Locked;
+        vectOffset = transform.position - goFollow.transform.position;
     }
 
     void Update()
     {
-        Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
-        frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
-        velocity += frameVelocity;
-        velocity.y = Mathf.Clamp(velocity.y, -35, 60);
+        Follow();
+    }
 
-        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.forward);
-        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
+    private void Follow()
+    {
+        vectOffset = transform.position - goFollow.transform.position;
+        transform.position = camPos.transform.position;
+        transform.rotation = Quaternion.Slerp(transform.rotation, goFollow.transform.rotation, speed * Time.deltaTime);
     }
 }
