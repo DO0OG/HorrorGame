@@ -6,14 +6,14 @@ using UnityEngine.Rendering;
 
 public class DepthOfField_Controller : MonoBehaviour
 {
+    [Header("PostProcess")]
+    public VolumeProfile volumeProfile;
+    DepthOfField depthOfField;
+
     Ray raycast;
     RaycastHit hit;
     bool isHit;
     float hitDistance;
-
-    public VolumeProfile volumeProfile;
-
-    DepthOfField depthOfField;
 
     public float focusSpeed = 15f;
     public float maxFocusDistance = 50f;

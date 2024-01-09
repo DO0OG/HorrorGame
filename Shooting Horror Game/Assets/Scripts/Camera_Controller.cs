@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class Camera_Controller : MonoBehaviour
 {
-    public Vector3 vectOffset;
+    [Header("Object")]
     public GameObject goFollow;
+    public GameObject camPos;
+
+    [Header("Vector3")]
+    public Vector3 vectOffset;
+
+    [Header("Force")]
     public float speed = 1.0f;
 
     void Start()
@@ -16,7 +22,7 @@ public class Camera_Controller : MonoBehaviour
     void Update()
     {
         vectOffset = transform.position - goFollow.transform.position;
-        transform.position = goFollow.transform.position + vectOffset;
+        transform.position = camPos.transform.position;
         transform.rotation = Quaternion.Slerp(transform.rotation, goFollow.transform.rotation, speed * Time.deltaTime);
     }
 }

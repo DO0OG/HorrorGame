@@ -1,30 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player_Cam : MonoBehaviour
+public class Camera_Movement : MonoBehaviour
 {
+    [Header("Peeking")]
     public Transform peekLeft;
     public Transform peekRight;
     public Transform peekIdle;
-    public Transform orientation;
-    public Transform character;
-    public float sensitivity = 2;
-    public float smoothing = 1.5f;
-
-    public float sensX;
-    public float sensY;
-
-    float xRotation;
-    float yRotation;
-
-    Vector2 velocity;
-    Vector2 frameVelocity;
-
     public float peekAngle = 10f; //작은 각도로 변경
     public float peekSpeed = 6f; //느린 속도로 변경
-    private float currentPeekAngle = 0f; //현재 기울인 각도
-
     public float peekDistance = 0.5f; //피킹 시 카메라가 이동할 거리
+
+    [Header("Bobbing")]
 
     //서 있을 때의 Head bobbing
     public float idleBobbingSpeed = 3f;
@@ -35,18 +22,19 @@ public class Player_Cam : MonoBehaviour
     public float movingBobbingSpeed = 15f;
     public float movingBobbingAmount = 0.035f;
     public float movingBobbingMidpoint = 0.0f;
-
-    private bool isMoving = false;
-    private bool isMovingTransitioning = false;
-    public bool isJumping = false;
-    public bool check = false;
     public Vector3 initialCameraPosition;
     public float shakeIntensity = 0.05f;
     public float shakeDuration = 0.1f;
-    public bool isSprint;
-    public bool isMove;
-    public bool isPause;
-    public bool isCrouch;
+
+    [Header("Bools")]
+    [SerializeField] private bool check = false;
+    [SerializeField] private bool isMoving = false;
+    [SerializeField] private bool isMovingTransitioning = false;
+    [SerializeField] private bool isJumping = false;
+    [SerializeField] private bool isSprint;
+    [SerializeField] private bool isMove;
+    [SerializeField] private bool isPause;
+    [SerializeField] private bool isCrouch;
 
     private float timer = 0.0f;
 
@@ -59,9 +47,6 @@ public class Player_Cam : MonoBehaviour
 
     void Update()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         //이동 여부를 감지하여 isMoving 변수 업데이트
         if (!check && !isSprint)
         {
@@ -239,7 +224,7 @@ public class Player_Cam : MonoBehaviour
         float yBobbingAmount = (yNoise * movingBobbingAmount * isSprinting) + (yNoise * idleBobbingAmount * (1f - isSprinting)) + (yNoise * idleBobbingAmount);
 
         Vector3 localPosition = transform.localPosition;
-        localPosition.x = movingBobbingMidpoint + xBobbingAmount;
+        localPosition.z = movingBobbingMidpoint + xBobbingAmount;
         localPosition.y = movingBobbingMidpoint + yBobbingAmount;
 
         transform.localPosition = Vector3.Lerp(transform.localPosition, localPosition, Time.deltaTime * movingBobbingSpeed);
