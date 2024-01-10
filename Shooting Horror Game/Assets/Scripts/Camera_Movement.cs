@@ -7,8 +7,8 @@ public class Camera_Movement : MonoBehaviour
     public Transform peekLeft;
     public Transform peekRight;
     public Transform peekIdle;
-    public float peekAngle = 10f; //작은 각도로 변경
-    public float peekSpeed = 6f; //느린 속도로 변경
+    public float peekAngle = 10f;
+    public float peekSpeed = 6f;
     public float peekDistance = 0.5f; //피킹 시 카메라가 이동할 거리
 
     [Header("Bobbing")]

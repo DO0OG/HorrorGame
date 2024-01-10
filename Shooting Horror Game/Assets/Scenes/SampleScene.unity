@@ -283,7 +283,6 @@ MonoBehaviour:
   dValue: 5
   stamina: 100
   maxStamina: 0
-  isSlope: 0
   isSprint: 0
   isMoving: 0
   playerHeight: 3.5
@@ -291,7 +290,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   grounded: 0
-  maxSlopeAngle: 60
+  anim: {fileID: 0}
 --- !u!1 &208977338
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,10 +568,10 @@ MonoBehaviour:
   peekAngle: 10
   peekSpeed: 6
   peekDistance: 0.5
+  initialCameraPosition: {x: 0, y: 0, z: 0}
   idleBobbingSpeed: 0.5
   idleBobbingAmount: 0.1
   idleBobbingMidpoint: 0
-  initialCameraPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,8 +1045,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goFollow: {fileID: 1710085227}
   camPos: {fileID: 637131161}
-  vectOffset: {x: 0, y: 0, z: 0}
-  speed: 15
+  speed: 9
+  rotationThreshold: 7
+  angle: 0
 --- !u!1 &1506907087
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,6 +1167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c681472d9a03014aad0277ace64cf32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeProfile: {fileID: 11400000, guid: 66c6e01c91d639b4f9fb93449c606288, type: 2}
   anim: {fileID: 0}
   mainCam: {fileID: 0}
   rightClick: 0

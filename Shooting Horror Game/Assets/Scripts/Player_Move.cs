@@ -25,7 +25,6 @@ public class Player_Move : MonoBehaviour
     public float maxStamina;
 
     [Header("Check")]
-    public bool isSlope;
     public bool isSprint;
     public bool isMoving = false;
 
@@ -34,16 +33,16 @@ public class Player_Move : MonoBehaviour
     public LayerMask Ground;
     public bool grounded;
 
-    [Header("Slope Handling")]
-    public float maxSlopeAngle;
-    private RaycastHit slopeHit;
-    private bool exitingSlope;
+    [Header("Animator")]
+    public Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        anim = GetComponentInChildren<Animator>();
 
         maxStamina = stamina;
     }
@@ -57,8 +56,7 @@ public class Player_Move : MonoBehaviour
         K_Input();
         SpeedControl();
         Sprint();
-
-        isSlope = OnSlope();
+        AnimateControl();
 
         if (grounded) rb.drag = groundDrag;
         else rb.drag = 0;
@@ -72,12 +70,18 @@ public class Player_Move : MonoBehaviour
         MovePlayer();
     }
 
+    private void AnimateControl()
+    {
+        anim.SetBool("Sprint", isSprint);
+        anim.SetBool("Move", isMoving);
+    }
+
     private void K_Input()
     {
         h_input = Input.GetAxisRaw("Horizontal");
         v_input = Input.GetAxisRaw("Vertical");
 
-        if ((h_input == -1f || h_input == 1f) || (v_input == -1f || v_input == 1f)) isMoving = true;
+        if ((h_input != 0) || (v_input != 0)) isMoving = true;
         else isMoving = false;
     }
 
@@ -85,56 +89,27 @@ public class Player_Move : MonoBehaviour
     {
         //이동 방향 계산
         moveDirection = orientation.forward * v_input + orientation.right * h_input;
+        moveDirection.y = 0;
 
-        //경사
-        if (OnSlope() && !exitingSlope)
-        {
-            rb.AddForce(GetSlopeMoveDirection() * nowSpeed * 18f, ForceMode.Force);
-
-            if (rb.velocity.y > 0)
-                rb.AddForce(Vector3.down * 2f, ForceMode.Force);
-        }
-
-        //땅
-        else if (grounded)
-            rb.AddForce(moveDirection.normalized * nowSpeed * 10f, ForceMode.Force);
+        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 
     private void SpeedControl()
     {
-        if (OnSlope() && !exitingSlope)
+        if(rb.velocity.magnitude > nowSpeed)
         {
-            if(rb.velocity.magnitude > nowSpeed)
-            {
-                rb.velocity = rb.velocity.normalized * nowSpeed;
-            }    
+            rb.velocity = rb.velocity.normalized * nowSpeed;
         }
-        else
-        {
-            Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-            if (flatVel.magnitude > nowSpeed)
-            {
-                Vector3 limitedVel = flatVel.normalized * nowSpeed;
-                rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
-            }
-        }
-    }
-
-    private bool OnSlope()
-    {
-        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
-        {
-            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
-            return angle < maxSlopeAngle && angle != 0;
-        }
-
-        return false;
     }
 
     private void Sprint()
     {
-
+        if (Input.GetMouseButton(1))
+        {
+            isSprint = false;
+            nowSpeed = moveSpeed - 2f;
+            return;
+        }
         if (stamina <= 0)
         {
             isSprint = false;
@@ -167,22 +142,5 @@ public class Player_Move : MonoBehaviour
         {
             stamina += dValue * Time.deltaTime / 2;
         }
-    }
-
-    private Vector3 GetSlopeMoveDirection()
-    {
-        return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
     }
 }

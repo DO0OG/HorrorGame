@@ -8,26 +8,43 @@ public class Camera_Follow : MonoBehaviour
     public GameObject goFollow;
     public GameObject camPos;
 
-    [Header("Vector3")]
-    public Vector3 vectOffset;
-
     [Header("Force")]
-    public float speed = 1.0f;
+    public float speed = 9.0f;
+    public float rotationThreshold = 7.0f; // 오차 허용 범위
+    public float angle;
 
     void Start()
     {
-        vectOffset = transform.position - goFollow.transform.position;
     }
 
     void Update()
     {
+        MouseCheck();
         Follow();
+    }
+
+    private void MouseCheck()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            rotationThreshold /= 2f;
+        }
+        else if(Input.GetMouseButtonUp(1))
+        {
+            rotationThreshold *= 2f;
+        }
     }
 
     private void Follow()
     {
-        vectOffset = transform.position - goFollow.transform.position;
         transform.position = camPos.transform.position;
-        transform.rotation = Quaternion.Slerp(transform.rotation, goFollow.transform.rotation, speed * Time.deltaTime);
+
+        angle = Quaternion.Angle(transform.rotation, goFollow.transform.rotation);
+
+        // 오차 허용 범위 내에 있을 때만 회전
+        if (angle >= rotationThreshold)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, goFollow.transform.rotation, speed * Time.deltaTime);
+        }
     }
 }
