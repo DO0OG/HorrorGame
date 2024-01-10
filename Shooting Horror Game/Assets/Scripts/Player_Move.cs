@@ -10,9 +10,9 @@ public class Player_Move : MonoBehaviour
     public KeyCode sprintKey = KeyCode.LeftShift;
 
     [Header("Movement")]
-    float h_input;
-    float v_input;
-    Vector3 moveDirection;
+    private float h_input;
+    private float v_input;
+    private Vector3 moveDirection;
     public Rigidbody rb;
     public Transform orientation;
     public float forceGravity = 5f;    //중력 레벨
@@ -24,7 +24,7 @@ public class Player_Move : MonoBehaviour
     public float stamina;
     public float maxStamina;
 
-    [Header("Bools")]
+    [Header("Check")]
     public bool isSlope;
     public bool isSprint;
     public bool isMoving = false;
@@ -52,7 +52,7 @@ public class Player_Move : MonoBehaviour
     void Update()
     {
         //땅 체크
-        grounded = true;
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.64f + 0.2f, Ground);
 
         K_Input();
         SpeedControl();
@@ -63,7 +63,7 @@ public class Player_Move : MonoBehaviour
         if (grounded) rb.drag = groundDrag;
         else rb.drag = 0;
 
-        if(isSprint)    DecreaseStamina();
+        if (isSprint) DecreaseStamina();
         if (!isSprint && stamina != maxStamina) IncreaseStamina();
     }
 

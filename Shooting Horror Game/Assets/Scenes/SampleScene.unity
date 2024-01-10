@@ -569,23 +569,10 @@ MonoBehaviour:
   peekAngle: 10
   peekSpeed: 6
   peekDistance: 0.5
-  idleBobbingSpeed: 3
-  idleBobbingAmount: 0.0125
+  idleBobbingSpeed: 0.5
+  idleBobbingAmount: 0.1
   idleBobbingMidpoint: 0
-  movingBobbingSpeed: 15
-  movingBobbingAmount: 0.035
-  movingBobbingMidpoint: 0
   initialCameraPosition: {x: 0, y: 0, z: 0}
-  shakeIntensity: 0.05
-  shakeDuration: 0.1
-  check: 0
-  isMoving: 0
-  isMovingTransitioning: 0
-  isJumping: 0
-  isSprint: 0
-  isMove: 0
-  isPause: 0
-  isCrouch: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
