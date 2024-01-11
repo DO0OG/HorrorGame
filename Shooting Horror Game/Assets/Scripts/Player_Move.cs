@@ -72,8 +72,8 @@ public class Player_Move : MonoBehaviour
 
     private void AnimateControl()
     {
-        anim.SetBool("Sprint", isSprint);
-        anim.SetBool("Move", isMoving);
+        anim.SetBool(PlayerAnimParameter.Sprint, isSprint);
+        anim.SetBool(PlayerAnimParameter.Move, isMoving);
     }
 
     private void K_Input()

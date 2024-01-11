@@ -40,6 +40,6 @@ public class test : MonoBehaviour
             vignette.smoothness.value = Mathf.Lerp(vignette.smoothness.value, 0.2f, 0.025f);
         }
 
-        anim.SetBool("Aim", rightClick);
+        anim.SetBool(PlayerAnimParameter.Aim, rightClick);
     }
 }
