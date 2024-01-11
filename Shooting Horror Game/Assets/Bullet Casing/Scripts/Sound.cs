@@ -9,6 +9,7 @@ public class Sound : MonoBehaviour {
 	void Start () {
 		
 		shell = GetComponent<AudioSource>();
+		shell.pitch = Random.Range(0.75f, 1f);
 		shell.Play();
 	}
 }
