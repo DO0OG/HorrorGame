@@ -11,16 +11,20 @@ public class Player_Shot : MonoBehaviour
     public GameObject shootEffectPrefab;
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
-    public float destroyTime = 3f;
-    public int ammo = 7;
+    [SerializeField] private float destroyTime = 3f;
+    [SerializeField] private int ammo = 7;
+
+    [Header("Reload")]
+    public float checkTime;
 
     [Header("Point")]
     public Transform firePoint;
     public Transform casingPoint;
 
     [Header("Bools")]
-    public bool outOfAmmo = false;
-    public static bool isReload = false;
+    [SerializeField] private bool outOfAmmo = false;
+    [SerializeField] private bool ammoCheck = false;
+    [SerializeField] internal static bool isReload = false;
 
     [Header("Animation")]
     Animator anim;
@@ -34,20 +38,22 @@ public class Player_Shot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0) && !isReload) Shot();
+        if(Input.GetKeyDown(KeyCode.Mouse0) && !isReload && ammo > 0 && !ammoCheck) Shot();
+        if(!isReload) ReloadTimeCheck();
         AnimControl();
-        if(Input.GetKeyDown(reloadKey)) StartCoroutine(Reload());
     }
 
     private void AnimControl()
     {
         anim.SetInteger(PlayerAnimParameter.Ammo, ammo);
 
-        if (ammo == 0)
+        if(ammo == 0)
         {
             outOfAmmo = true;
-            anim.SetBool(PlayerAnimParameter.OutOfAmmo, outOfAmmo);
         }
+        anim.SetBool(PlayerAnimParameter.OutOfAmmo, outOfAmmo);
+
+        anim.SetBool(PlayerAnimParameter.AmmoCheck, ammoCheck);
     }
 
     private void Shot()
@@ -70,7 +76,32 @@ public class Player_Shot : MonoBehaviour
         }
     }
 
-    IEnumerator Reload()
+    private void ReloadTimeCheck()
+    {
+        if (Input.GetKey(reloadKey))
+        {
+            checkTime += Time.deltaTime;
+            if(checkTime > 0.6f)
+            {
+                ammoCheck = true;
+            }
+        }
+        else
+        {
+            if (Input.GetKeyUp(reloadKey) && checkTime <= 0.5f)
+            {
+                checkTime = 0;
+                StartCoroutine(Reload());
+            }
+            else if (Input.GetKeyUp(reloadKey) && checkTime > 0.6f)
+            {
+                checkTime = 0;
+                ammoCheck = false;
+            }
+        }
+    }
+
+    private IEnumerator Reload()
     {
         if (!isReload)
         {
@@ -79,7 +110,6 @@ public class Player_Shot : MonoBehaviour
             ammo = 7;
             yield return new WaitForSeconds(2.8f);
             outOfAmmo = false;
-            anim.SetBool(PlayerAnimParameter.OutOfAmmo, outOfAmmo);
             isReload = false;
         }
     }
