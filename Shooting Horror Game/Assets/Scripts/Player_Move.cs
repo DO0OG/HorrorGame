@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Player_Move : MonoBehaviour
 {
     [Header("Keybinds")]
-    public KeyCode sprintKey = KeyCode.LeftShift;
+    public static KeyCode sprintKey = KeyCode.LeftShift;
 
     [Header("Movement")]
     private float h_input;
@@ -25,13 +25,13 @@ public class Player_Move : MonoBehaviour
     public float maxStamina;
 
     [Header("Check")]
-    public bool isSprint;
-    public bool isMoving = false;
+    public static bool isSprint = false;
+    public static bool isMoving = false;
+    public bool grounded = false;
 
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask Ground;
-    public bool grounded;
 
     [Header("Animator")]
     public Animator anim;

@@ -26,6 +26,7 @@ public class Camera_Movement : MonoBehaviour
 
     void Update()
     {
+        HeadBobControl();
         HeadBob();
     }
 
@@ -63,7 +64,19 @@ public class Camera_Movement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, peekRotation, Time.deltaTime * peekSpeed);
     }
 
-    public void HeadBob()
+    private void HeadBobControl()
+    {
+        if (Input.GetKeyDown(Player_Shot.aimKey))
+        {
+            idleBobbingAmount /= 3f;
+        }
+        else if (Input.GetKeyUp(Player_Shot.aimKey))
+        {
+            idleBobbingAmount *= 3f;
+        }
+    }
+
+    private void HeadBob()
     {
         float xNoise = Mathf.PerlinNoise(0f, Time.time * idleBobbingSpeed) * 2f - 1f;
         float yNoise = Mathf.PerlinNoise(1f, Time.time * idleBobbingSpeed) * 2f - 1f;
