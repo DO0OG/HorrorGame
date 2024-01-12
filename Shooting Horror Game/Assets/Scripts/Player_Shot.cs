@@ -20,6 +20,7 @@ public class Player_Shot : MonoBehaviour
 
     [Header("Bools")]
     public bool outOfAmmo = false;
+    public static bool isReload = false;
 
     [Header("Animation")]
     Animator anim;
@@ -33,13 +34,15 @@ public class Player_Shot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0)) Shot();
+        if(Input.GetKeyDown(KeyCode.Mouse0) && !isReload) Shot();
         AnimControl();
-        Reload();
+        if(Input.GetKeyDown(reloadKey)) StartCoroutine(Reload());
     }
 
     private void AnimControl()
     {
+        anim.SetInteger(PlayerAnimParameter.Ammo, ammo);
+
         if (ammo == 0)
         {
             outOfAmmo = true;
@@ -67,14 +70,17 @@ public class Player_Shot : MonoBehaviour
         }
     }
 
-    private void Reload()
+    IEnumerator Reload()
     {
-        if (Input.GetKeyDown(reloadKey))
+        if (!isReload)
         {
-            ammo = 7;
-            outOfAmmo = false;
+            isReload = true;
             anim.SetTrigger(PlayerAnimParameter.Reload);
+            ammo = 7;
+            yield return new WaitForSeconds(2.8f);
+            outOfAmmo = false;
             anim.SetBool(PlayerAnimParameter.OutOfAmmo, outOfAmmo);
+            isReload = false;
         }
     }
 }
