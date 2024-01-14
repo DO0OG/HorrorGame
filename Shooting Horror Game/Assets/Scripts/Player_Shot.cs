@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 public class Player_Shot : MonoBehaviour
 {
@@ -11,16 +9,12 @@ public class Player_Shot : MonoBehaviour
     public static KeyCode shotKey = KeyCode.Mouse0;
     public static KeyCode aimKey = KeyCode.Mouse1;
 
-    [Header("PostProcess")]
-    public VolumeProfile volumeProfile;
-    Vignette vignette;
-
     [Header("Bullet")]
     public GameObject shootEffectPrefab;
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
     [SerializeField] private float destroyTime = 3f;
-    [SerializeField] private int ammo = 7;
+    [SerializeField] private int ammo = 8;
 
     [Header("Reload")]
     public float checkTime;
@@ -38,16 +32,10 @@ public class Player_Shot : MonoBehaviour
     [Header("Animation")]
     Animator anim;
 
-    [Header("ETC")]
-    public Camera mainCam;
-
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        mainCam = Camera.main;
-
-        volumeProfile.TryGet(out vignette);
     }
 
     // Update is called once per frame
@@ -56,7 +44,6 @@ public class Player_Shot : MonoBehaviour
         if(Input.GetKeyDown(shotKey) && !isReload && ammo > 0 && !ammoCheck) Shot();
         if(!isReload) ReloadTimeCheck();
         AnimControl();
-        Aim();
     }
 
     private void AnimControl()
@@ -74,22 +61,6 @@ public class Player_Shot : MonoBehaviour
         anim.SetBool(PlayerAnimParameter.Aim, isAim);
     }
 
-    private void Aim()
-    {
-        if (Input.GetKey(aimKey) && !isReload)
-        {
-            isAim = true;
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 32.5f, 0.025f);
-            vignette.smoothness.value = Mathf.Lerp(vignette.smoothness.value, 0.45f, 0.025f);
-        }
-        else
-        {
-            isAim = false;
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 60f, 0.025f);
-            vignette.smoothness.value = Mathf.Lerp(vignette.smoothness.value, 0.2f, 0.025f);
-        }
-    }
-
     private void Shot()
     {
         if (outOfAmmo) return;
@@ -101,6 +72,7 @@ public class Player_Shot : MonoBehaviour
         anim.SetTrigger(PlayerAnimParameter.Shot);
 
         GameObject casingEffect = Instantiate(casingPrefab, casingPoint);
+        casingEffect.transform.SetParent(null);
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -108,6 +80,8 @@ public class Player_Shot : MonoBehaviour
             shootEffect.transform.SetParent(hit.transform);
             Destroy(shootEffect, destroyTime);
         }
+
+        StartCoroutine(Camera_Controller.ShotFoV());
     }
 
     private void ReloadTimeCheck()
@@ -123,14 +97,14 @@ public class Player_Shot : MonoBehaviour
                 ammoCheck = true;
             }
         }
-        else
+        else if(Input.GetKeyUp(reloadKey))
         {
-            if (Input.GetKeyUp(reloadKey) && checkTime <= 0.5f)
+            if (checkTime <= 0.5f)
             {
                 checkTime = 0;
                 StartCoroutine(Reload());
             }
-            else if (Input.GetKeyUp(reloadKey) && checkTime > 0.6f)
+            else if (checkTime > 0.6f)
             {
                 checkTime = 0;
                 ammoCheck = false;
@@ -144,7 +118,8 @@ public class Player_Shot : MonoBehaviour
         {
             isReload = true;
             anim.SetTrigger(PlayerAnimParameter.Reload);
-            ammo = 7;
+            if (ammo != 0) ammo = 1;
+            ammo += 8;
             yield return new WaitForSeconds(2.8f);
             outOfAmmo = false;
             isReload = false;
