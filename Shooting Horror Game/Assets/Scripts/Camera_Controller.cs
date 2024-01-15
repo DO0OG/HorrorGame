@@ -66,10 +66,8 @@ public class Camera_Controller : MonoBehaviour
         }
     }
 
-    public static IEnumerator ShotFoV()
+    public static void ShotFoV()
     {
-        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, mainCam.fieldOfView - 15f, 0.1f);
-        yield return new WaitForSeconds(0.1f);
-        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, mainCam.fieldOfView + 15f, 0.1f);
+        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, mainCam.fieldOfView - 15f, 0.25f);
     }
 }

@@ -81,7 +81,7 @@ public class Player_Shot : MonoBehaviour
             Destroy(shootEffect, destroyTime);
         }
 
-        StartCoroutine(Camera_Controller.ShotFoV());
+        Camera_Controller.ShotFoV();
     }
 
     private void ReloadTimeCheck()
