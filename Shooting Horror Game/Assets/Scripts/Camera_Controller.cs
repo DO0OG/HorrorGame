@@ -16,6 +16,7 @@ public class Camera_Controller : MonoBehaviour
 
     [Header("PostProcess")]
     public VolumeProfile primaryProfile;
+    ChromaticAberration chromatic;
     Vignette vignette;
 
     [Header("Velocity")]
@@ -30,12 +31,14 @@ public class Camera_Controller : MonoBehaviour
         mainCam = Camera.main;
 
         primaryProfile.TryGet(out vignette);
+        primaryProfile.TryGet(out chromatic);
     }
 
     void Update()
     {
         Control();
         Aim();
+        ChromaControl();
     }
 
     private void Control()
@@ -63,6 +66,18 @@ public class Camera_Controller : MonoBehaviour
             Player_Shot.isAim = false;
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 60f, 0.025f);
             vignette.smoothness.value = Mathf.Lerp(vignette.smoothness.value, 0.2f, 0.025f);
+        }
+    }
+
+    private void ChromaControl()
+    {
+        if (Player_Move.isSprint)
+        {
+            chromatic.intensity.value = Mathf.Lerp(chromatic.intensity.value, 0.5f, 0.025f);
+        }
+        else
+        {
+            chromatic.intensity.value = Mathf.Lerp(chromatic.intensity.value, 0.25f, 0.025f);
         }
     }
 

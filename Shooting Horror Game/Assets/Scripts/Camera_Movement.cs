@@ -30,6 +30,17 @@ public class Camera_Movement : MonoBehaviour
         {
             idleBobbingAmount *= 3f;
         }
+
+        if (Input.GetKeyDown(Player_Move.sprintKey))
+        {
+            idleBobbingSpeed *= 8f;
+            idleBobbingAmount *= 5f;
+        }
+        else if (Input.GetKeyUp(Player_Move.sprintKey))
+        {
+            idleBobbingSpeed /= 8f;
+            idleBobbingAmount /= 5f;
+        }
     }
 
     private void HeadBob()
