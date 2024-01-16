@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Player_Shot : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class Player_Shot : MonoBehaviour
     public GameObject muzzleFlashPrefab;
     [SerializeField] private float destroyTime = 3f;
     [SerializeField] private int ammo = 8;
+
+    [Header("MuzzleFlash")]
+    [SerializeField] private float projectileForce = 10;
+    [SerializeField] private Rigidbody projectile;
+    [SerializeField] private VisualEffect muzzleFlash;
+    [SerializeField] private GameObject muzzleLight;
 
     [Header("Reload")]
     public float checkTime;
@@ -82,6 +89,7 @@ public class Player_Shot : MonoBehaviour
         }
 
         Camera_Controller.ShotFoV();
+        MuzzleFlash();
     }
 
     private void ReloadTimeCheck()
@@ -110,6 +118,12 @@ public class Player_Shot : MonoBehaviour
                 ammoCheck = false;
             }
         }
+    }
+
+    private void MuzzleFlash()
+    {
+        muzzleFlash.Play();
+        muzzleLight.SetActive(true);
     }
 
     private IEnumerator Reload()
