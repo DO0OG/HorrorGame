@@ -11,20 +11,20 @@ public class Camera_Controller : MonoBehaviour
     [SerializeField] private Transform character;
 
     [Header("Force")]
-    public float sensitivity = 2;
-    public float smoothing = 1.5f;
+    [SerializeField] private float sensitivity = 2;
+    [SerializeField] private float smoothing = 1.5f;
 
     [Header("PostProcess")]
-    public VolumeProfile primaryProfile;
+    [SerializeField] private VolumeProfile primaryProfile;
     ChromaticAberration chromatic;
     Vignette vignette;
 
     [Header("Velocity")]
-    Vector2 velocity;
-    Vector2 frameVelocity;
+    private Vector2 velocity;
+    private Vector2 frameVelocity;
 
     [Header("ETC")]
-    public static Camera mainCam;
+    internal static Camera mainCam;
 
     void Start()
     {
@@ -81,7 +81,7 @@ public class Camera_Controller : MonoBehaviour
         }
     }
 
-    public static void ShotFoV()
+    internal static void ShotFoV()
     {
         mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, mainCam.fieldOfView - 15f, 0.25f);
     }

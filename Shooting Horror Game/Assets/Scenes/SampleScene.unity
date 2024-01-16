@@ -280,7 +280,7 @@ MonoBehaviour:
   moveSpeed: 5
   sprintSpeed: 8
   groundDrag: 5
-  dValue: 5
+  dValue: 15
   stamina: 100
   maxStamina: 0
   grounded: 0
@@ -307,8 +307,6 @@ MonoBehaviour:
   muzzleFlashPrefab: {fileID: 100006, guid: c888f0c922d622147bbdbe2ca794142b, type: 3}
   destroyTime: 3
   ammo: 8
-  projectileForce: 10
-  projectile: {fileID: 0}
   muzzleFlash: {fileID: 663139936}
   muzzleLight: {fileID: 1358595559}
   checkTime: 0
@@ -574,6 +572,8 @@ MonoBehaviour:
   idleBobbingSpeed: 0.5
   idleBobbingAmount: 0.1
   idleBobbingMidpoint: 0
+  initialSpeed: 0
+  initialAmount: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,29 +6,26 @@ using UnityEngine.VFX;
 public class Player_Shot : MonoBehaviour
 {
     [Header("Keybinds")]
-    public static KeyCode reloadKey = KeyCode.R;
-    public static KeyCode shotKey = KeyCode.Mouse0;
-    public static KeyCode aimKey = KeyCode.Mouse1;
+    internal static KeyCode reloadKey = KeyCode.R;
+    internal static KeyCode shotKey = KeyCode.Mouse0;
+    internal static KeyCode aimKey = KeyCode.Mouse1;
 
     [Header("Bullet")]
-    public GameObject shootEffectPrefab;
-    public GameObject casingPrefab;
-    public GameObject muzzleFlashPrefab;
+    [SerializeField] private GameObject shootEffectPrefab;
+    [SerializeField] private GameObject casingPrefab;
     [SerializeField] private float destroyTime = 3f;
     [SerializeField] private int ammo = 8;
 
     [Header("MuzzleFlash")]
-    [SerializeField] private float projectileForce = 10;
-    [SerializeField] private Rigidbody projectile;
     [SerializeField] private VisualEffect muzzleFlash;
     [SerializeField] private GameObject muzzleLight;
 
     [Header("Reload")]
-    public float checkTime;
+    [SerializeField] private float checkTime;
 
     [Header("Point")]
-    public Transform firePoint;
-    public Transform casingPoint;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private Transform casingPoint;
 
     [Header("Bools")]
     [SerializeField] private bool outOfAmmo = false;
@@ -37,7 +34,7 @@ public class Player_Shot : MonoBehaviour
     internal static bool isAim = false;
 
     [Header("Animation")]
-    Animator anim;
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -100,7 +97,7 @@ public class Player_Shot : MonoBehaviour
             {
                 checkTime += Time.deltaTime;
             }
-            if(checkTime > 0.6f)
+            if(checkTime > 0.5f)
             {
                 ammoCheck = true;
             }
@@ -112,7 +109,7 @@ public class Player_Shot : MonoBehaviour
                 checkTime = 0;
                 StartCoroutine(Reload());
             }
-            else if (checkTime > 0.6f)
+            else if (checkTime > 0.5f)
             {
                 checkTime = 0;
                 ammoCheck = false;

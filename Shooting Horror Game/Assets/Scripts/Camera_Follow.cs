@@ -5,13 +5,13 @@ using UnityEngine;
 public class Camera_Follow : MonoBehaviour
 {
     [Header("Object")]
-    public GameObject goFollow;
-    public GameObject camPos;
+    [SerializeField] private GameObject goFollow;
+    [SerializeField] private GameObject camPos;
 
     [Header("Force")]
-    public float speed = 9.0f;
-    public float rotationThreshold = 7.0f; // 오차 허용 범위
-    public float angle;
+    [SerializeField] private float speed = 9.0f;
+    [SerializeField] private float rotationThreshold = 7.0f; // 오차 허용 범위
+    [SerializeField] private float angle;
 
     void Start()
     {

@@ -7,34 +7,34 @@ using UnityEngine.UI;
 public class Player_Move : MonoBehaviour
 {
     [Header("Keybinds")]
-    public static KeyCode sprintKey = KeyCode.LeftShift;
+    internal static KeyCode sprintKey = KeyCode.LeftShift;
 
     [Header("Movement")]
     private float h_input;
     private float v_input;
     private Vector3 moveDirection;
-    public Rigidbody rb;
-    public Transform orientation;
-    public float forceGravity = 5f;    //중력 레벨
-    public float nowSpeed;
-    public float moveSpeed = 5f;
-    public float sprintSpeed = 8f;
-    public float groundDrag;
-    public float dValue = 5f;
-    public float stamina;
-    public float maxStamina;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Transform orientation;
+    [SerializeField] private float nowSpeed;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float sprintSpeed = 8f;
+    [SerializeField] private float groundDrag;
+    [SerializeField] private float dValue = 5f;
+    [SerializeField] private float stamina;
+    [SerializeField] private float maxStamina;
 
     [Header("Check")]
-    public static bool isSprint = false;
-    public static bool isMoving = false;
-    public bool grounded = false;
+    internal static bool isSprint = false;
+    internal static bool isMoving = false;
+    internal static bool isRestoreStamina = false;
+    internal static bool grounded = false;
 
     [Header("Ground Check")]
-    public float playerHeight;
-    public LayerMask Ground;
+    [SerializeField] private float playerHeight;
+    [SerializeField] private LayerMask Ground;
 
     [Header("Animator")]
-    public Animator anim;
+    [SerializeField] private Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -57,12 +57,12 @@ public class Player_Move : MonoBehaviour
         SpeedControl();
         Sprint();
         AnimateControl();
+        
+        if (isSprint) DecreaseStamina();
+        if (!isSprint && stamina != maxStamina) IncreaseStamina();
 
         if (grounded) rb.drag = groundDrag;
         else rb.drag = 0;
-
-        if (isSprint) DecreaseStamina();
-        if (!isSprint && stamina != maxStamina) IncreaseStamina();
     }
 
     private void FixedUpdate()
@@ -112,14 +112,24 @@ public class Player_Move : MonoBehaviour
         }
         if (stamina <= 0)
         {
+            isRestoreStamina = true;
             isSprint = false;
             return;
         }
+        else if(stamina >= 25f)
+        {
+            isRestoreStamina = false;
+        }
         
-        if (Input.GetKey(sprintKey) && ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))) & !Input.GetKey(KeyCode.S))
+        if (!isRestoreStamina && Input.GetKey(sprintKey) && ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))) & !Input.GetKey(KeyCode.S))
         {
             isSprint = true;
             nowSpeed = sprintSpeed;
+        }
+        else if(isRestoreStamina)
+        {
+            isSprint = false;
+            nowSpeed = moveSpeed;
         }
         else
         {

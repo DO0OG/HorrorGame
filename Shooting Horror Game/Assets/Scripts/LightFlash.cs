@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightFlash : MonoBehaviour
 {
-    public float disableTime = 0.1f;
+    [SerializeField] private float disableTime = 0.1f;
 
     // Start is called before the first frame update
     void Start()
