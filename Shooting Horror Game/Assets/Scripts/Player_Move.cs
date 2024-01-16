@@ -8,6 +8,7 @@ public class Player_Move : MonoBehaviour
 {
     [Header("Keybinds")]
     internal static KeyCode sprintKey = KeyCode.LeftShift;
+    internal static KeyCode jumpKey = KeyCode.Space;
 
     [Header("Movement")]
     private float h_input;
@@ -15,6 +16,8 @@ public class Player_Move : MonoBehaviour
     private Vector3 moveDirection;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform orientation;
+    [SerializeField] private float jumpForce = 8f;
+    [SerializeField] private float gravityForce = 8f;
     [SerializeField] private float nowSpeed;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float sprintSpeed = 8f;
@@ -51,11 +54,14 @@ public class Player_Move : MonoBehaviour
     void Update()
     {
         //¶¥ Ã¼Å©
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.64f + 0.2f, Ground);
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight/2 + 0.1f, Ground);
 
-        K_Input();
+        if (!grounded) rb.AddForce(Vector3.down * gravityForce);
+
+        Key_Input();
         SpeedControl();
         Sprint();
+        Jump();
         AnimateControl();
         
         if (isSprint) DecreaseStamina();
@@ -76,7 +82,7 @@ public class Player_Move : MonoBehaviour
         anim.SetBool(PlayerAnimParameter.Move, isMoving);
     }
 
-    private void K_Input()
+    private void Key_Input()
     {
         h_input = Input.GetAxisRaw("Horizontal");
         v_input = Input.GetAxisRaw("Vertical");
@@ -96,9 +102,12 @@ public class Player_Move : MonoBehaviour
 
     private void SpeedControl()
     {
-        if(rb.velocity.magnitude > nowSpeed)
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        if (flatVel.magnitude > nowSpeed)
         {
-            rb.velocity = rb.velocity.normalized * nowSpeed;
+            Vector3 limitedVel = flatVel.normalized * nowSpeed;
+            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
 
@@ -151,6 +160,19 @@ public class Player_Move : MonoBehaviour
         if (stamina < maxStamina)
         {
             stamina += dValue * Time.deltaTime / 2;
+        }
+    }
+
+    private void Jump()
+    {
+        if(Input.GetKeyDown(jumpKey) && grounded) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            StartCoroutine(Camera_Movement.ShakeCamera(Camera.main.transform, 0.5f, 0.1f));
         }
     }
 }

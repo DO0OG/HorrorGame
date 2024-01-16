@@ -259,7 +259,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &156467216
 MonoBehaviour:
@@ -275,7 +275,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 156467215}
   orientation: {fileID: 637131162}
-  forceGravity: 5
+  jumpForce: 7.5
+  gravityForce: 5
   nowSpeed: 0
   moveSpeed: 5
   sprintSpeed: 8
@@ -283,7 +284,6 @@ MonoBehaviour:
   dValue: 15
   stamina: 100
   maxStamina: 0
-  grounded: 0
   playerHeight: 5
   Ground:
     serializedVersion: 2
@@ -304,7 +304,6 @@ MonoBehaviour:
   shootEffectPrefab: {fileID: 100006, guid: 94a130fb17f1cae4388a8fe1d8bd3055, type: 3}
   casingPrefab: {fileID: 1170647774315830, guid: 522b470e09ed8b8488c6b8788f9d6206,
     type: 3}
-  muzzleFlashPrefab: {fileID: 100006, guid: c888f0c922d622147bbdbe2ca794142b, type: 3}
   destroyTime: 3
   ammo: 8
   muzzleFlash: {fileID: 663139936}
