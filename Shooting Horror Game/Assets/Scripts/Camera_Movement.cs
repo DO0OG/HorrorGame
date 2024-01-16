@@ -4,14 +4,20 @@ using System.Collections;
 public class Camera_Movement : MonoBehaviour
 {
     [Header("Bobbing")]
-    public float idleBobbingSpeed = 0.5f;
-    public float idleBobbingAmount = 0.1f;
-    public float idleBobbingMidpoint = 0.0f;
+    [SerializeField] private float idleBobbingSpeed = 0.5f;
+    [SerializeField] private float idleBobbingAmount = 0.1f;
+    [SerializeField] private float idleBobbingMidpoint = 0.0f;
+
+    [SerializeField] private float initialSpeed;
+    [SerializeField] private float initialAmount;
 
     void Awake()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        
+        initialAmount = idleBobbingAmount;
+        initialSpeed = idleBobbingSpeed;
     }
 
     void Update()
@@ -22,24 +28,19 @@ public class Camera_Movement : MonoBehaviour
 
     private void HeadBobControl()
     {
-        if (Input.GetKeyDown(Player_Shot.aimKey))
+        if (Player_Shot.isAim && !Player_Move.isSprint)
         {
-            idleBobbingAmount /= 3f;
+            idleBobbingAmount = initialAmount / 3f;
         }
-        else if (Input.GetKeyUp(Player_Shot.aimKey))
+        else if (Player_Move.isSprint && !Player_Shot.isAim)
         {
-            idleBobbingAmount *= 3f;
+            idleBobbingSpeed = initialSpeed * 8f;
+            idleBobbingAmount = initialAmount * 5f;
         }
-
-        if (Input.GetKeyDown(Player_Move.sprintKey))
+        else
         {
-            idleBobbingSpeed *= 8f;
-            idleBobbingAmount *= 5f;
-        }
-        else if (Input.GetKeyUp(Player_Move.sprintKey))
-        {
-            idleBobbingSpeed /= 8f;
-            idleBobbingAmount /= 5f;
+            idleBobbingSpeed = initialSpeed;
+            idleBobbingAmount = initialAmount;
         }
     }
 
