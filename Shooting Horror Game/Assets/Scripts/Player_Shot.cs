@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.VFX;
 
 public class Player_Shot : MonoBehaviour
@@ -19,6 +20,10 @@ public class Player_Shot : MonoBehaviour
     [Header("MuzzleFlash")]
     [SerializeField] private VisualEffect muzzleFlash;
     [SerializeField] private GameObject muzzleLight;
+
+    [Header("AmmoUI")]
+    [SerializeField] private CanvasGroup ammoCanvas;
+    [SerializeField] private Slider ammoSlider;
 
     [Header("Reload")]
     [SerializeField] private float checkTime;
@@ -40,6 +45,9 @@ public class Player_Shot : MonoBehaviour
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
+
+        ammoCanvas.alpha = 0f;
+        ammoSlider.maxValue = ammo;
     }
 
     // Update is called once per frame
@@ -48,6 +56,7 @@ public class Player_Shot : MonoBehaviour
         if(Input.GetKeyDown(shotKey) && !isReload && ammo > 0 && !ammoCheck) Shot();
         if(!isReload) ReloadTimeCheck();
         AnimControl();
+        AmmoSlider(ammoSlider);
     }
 
     private void AnimControl()
@@ -115,6 +124,23 @@ public class Player_Shot : MonoBehaviour
                 ammoCheck = false;
             }
         }
+    }
+
+    private void AmmoSlider(Slider slider)
+    {
+        slider.value = ammo;
+        if (ammoCheck) CanvasFadeIn(ammoCanvas);
+        else if(!ammoCheck) CanvasFadeOut(ammoCanvas);
+    }
+
+    private void CanvasFadeIn(CanvasGroup canvas)
+    {
+        canvas.alpha = Mathf.Lerp(canvas.alpha, 1f, Time.deltaTime * 5f);
+    }
+
+    private void CanvasFadeOut(CanvasGroup canvas)
+    {
+        canvas.alpha = Mathf.Lerp(canvas.alpha, 0f, Time.deltaTime * 5f);
     }
 
     private void MuzzleFlash()
