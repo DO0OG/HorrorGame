@@ -24,6 +24,8 @@ public class Player_Shot : MonoBehaviour
     [Header("AmmoUI")]
     [SerializeField] private CanvasGroup ammoCanvas;
     [SerializeField] private Slider ammoSlider;
+    [SerializeField] private Image slideFill;
+    [SerializeField] private Gradient gradient;
 
     [Header("Reload")]
     [SerializeField] private float checkTime;
@@ -56,7 +58,7 @@ public class Player_Shot : MonoBehaviour
         if(Input.GetKeyDown(shotKey) && !isReload && ammo > 0 && !ammoCheck) Shot();
         if(!isReload) ReloadTimeCheck();
         AnimControl();
-        AmmoSlider(ammoSlider);
+        AmmoCheckSlider(ammoSlider);
     }
 
     private void AnimControl()
@@ -126,11 +128,12 @@ public class Player_Shot : MonoBehaviour
         }
     }
 
-    private void AmmoSlider(Slider slider)
+    private void AmmoCheckSlider(Slider slider)
     {
         slider.value = ammo;
         if (ammoCheck) CanvasFadeIn(ammoCanvas);
         else if(!ammoCheck) CanvasFadeOut(ammoCanvas);
+        // slideFill.color = gradient.Evaluate(slider.value);
     }
 
     private void CanvasFadeIn(CanvasGroup canvas)
