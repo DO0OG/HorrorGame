@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class Player_Move : MonoBehaviour
 {
     [Header("Keybinds")]
-    internal static KeyCode sprintKey = KeyCode.LeftShift;
-    internal static KeyCode jumpKey = KeyCode.Space;
+    [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
 
     [Header("Movement")]
     private float h_input;
@@ -16,7 +15,6 @@ public class Player_Move : MonoBehaviour
     private Vector3 moveDirection;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform orientation;
-    [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float gravityForce = 8f;
     [SerializeField] private float nowSpeed;
     [SerializeField] private float moveSpeed = 5f;
@@ -61,7 +59,6 @@ public class Player_Move : MonoBehaviour
         Key_Input();
         SpeedControl();
         Sprint();
-        Jump();
         AnimateControl();
         
         if (isSprint) DecreaseStamina();
@@ -161,11 +158,6 @@ public class Player_Move : MonoBehaviour
         {
             stamina += dValue * Time.deltaTime / 2;
         }
-    }
-
-    private void Jump()
-    {
-        if(Input.GetKeyDown(jumpKey) && grounded) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)

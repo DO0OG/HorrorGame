@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 156467212}
   - component: {fileID: 156467216}
   - component: {fileID: 156467217}
+  - component: {fileID: 156467218}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -348,9 +349,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dee0ea118f4309438a1948a443f5ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprintKey: 304
   rb: {fileID: 156467215}
   orientation: {fileID: 637131162}
-  jumpForce: 7.5
   gravityForce: 5
   nowSpeed: 0
   moveSpeed: 5
@@ -390,6 +391,18 @@ MonoBehaviour:
   casingPoint: {fileID: 1274225642}
   outOfAmmo: 0
   ammoCheck: 0
+--- !u!114 &156467218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156467210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18a5a1acb6b0f540b706c849e2adb65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &208977338
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,7 +1321,7 @@ GameObject:
   - component: {fileID: 895923659}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
