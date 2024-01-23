@@ -14,12 +14,16 @@ public class Player_Health : MonoBehaviour
     [SerializeField] private bool isDead = false;
     [SerializeField] private bool isRestore = false;
 
+    [Header("Blood")]
+    [SerializeField] private CanvasGroup bloodCG;
+
     // Start is called before the first frame update
     void Start()
     {
         SetMaxHealth(50);
 
         isDead = false;
+        bloodCG.alpha = 0;
     }
 
     // Update is called once per frame
@@ -62,6 +66,12 @@ public class Player_Health : MonoBehaviour
         {
             currentHealth += 5 * Time.deltaTime;
             currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+            if (currentHealth < maxHealth)
+            {
+                bloodCG.alpha -= 0.1f * Time.deltaTime;
+                bloodCG.alpha = Mathf.Clamp(bloodCG.alpha, 0f, 1f);
+            }
         }
         else
         {
@@ -76,6 +86,9 @@ public class Player_Health : MonoBehaviour
 
         restoreTimer = 0f;
         isRestore = false;
+
+        bloodCG.alpha += (10 / maxHealth);
+        bloodCG.alpha = Mathf.Clamp(bloodCG.alpha, 0f, 1f);
     }
 
     private void OnCollisionEnter(Collision collision)
