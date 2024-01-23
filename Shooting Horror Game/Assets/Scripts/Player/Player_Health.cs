@@ -45,7 +45,7 @@ public class Player_Health : MonoBehaviour
 
     private void RestoreTimer()
     {
-        if (restoreTimer <= 5f)
+        if (restoreTimer <= 5f && currentHealth != maxHealth)
         {
             restoreTimer += Time.deltaTime;
         }
