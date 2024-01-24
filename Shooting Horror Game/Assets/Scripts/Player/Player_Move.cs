@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class Player_Move : MonoBehaviour
 {
     [Header("Keybinds")]
-    [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
+    private PlayerInput playerInput;
+    private InputActionMap playerActionMap;
+    private InputAction moveAction;
+    private InputAction sprintAction;
+    private InputAction aimAction;
 
     [Header("Movement")]
-    private float h_input;
-    private float v_input;
-    private Vector3 moveDirection;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform orientation;
     [SerializeField] private float gravityForce = 8f;
@@ -23,6 +23,7 @@ public class Player_Move : MonoBehaviour
     [SerializeField] private float dValue = 5f;
     [SerializeField] private float stamina;
     [SerializeField] private float maxStamina;
+    private Vector3 moveDirection;
 
     [Header("Check")]
     internal static bool isSprint = false;
@@ -40,12 +41,29 @@ public class Player_Move : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponentInChildren<Animator>();
+        playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+
         rb.freezeRotation = true;
 
-        anim = GetComponentInChildren<Animator>();
-
         maxStamina = stamina;
+
+        playerActionMap = playerInput.actions.FindActionMap("Player");
+        moveAction = playerActionMap.FindAction("Move");
+        sprintAction = playerActionMap.FindAction("Sprint");
+        aimAction = playerActionMap.FindAction("Aim");
+
+        moveAction.performed += ctx => {
+            Vector2 dir = ctx.ReadValue<Vector2>();
+            moveDirection = new Vector3(dir.x, 0, dir.y);
+            isMoving = true;
+        };
+
+        moveAction.canceled += ctx => {
+            moveDirection = Vector3.zero;
+            isMoving = false;
+        };
     }
 
     // Update is called once per frame
@@ -56,11 +74,10 @@ public class Player_Move : MonoBehaviour
 
         if (!grounded) rb.AddForce(Vector3.down * gravityForce);
 
-        Key_Input();
         SpeedControl();
         Sprint();
         AnimateControl();
-        
+
         if (isSprint) DecreaseStamina();
         if (!isSprint && stamina != maxStamina) IncreaseStamina();
 
@@ -75,26 +92,20 @@ public class Player_Move : MonoBehaviour
 
     private void AnimateControl()
     {
-        anim.SetBool(PlayerAnimParameter.Sprint, isSprint);
         anim.SetBool(PlayerAnimParameter.Move, isMoving);
-    }
-
-    private void Key_Input()
-    {
-        h_input = Input.GetAxisRaw("Horizontal");
-        v_input = Input.GetAxisRaw("Vertical");
-
-        if ((h_input != 0) || (v_input != 0)) isMoving = true;
-        else isMoving = false;
+        anim.SetBool(PlayerAnimParameter.Sprint, isSprint);
     }
 
     private void MovePlayer()
     {
-        //이동 방향 계산
-        moveDirection = orientation.forward * v_input + orientation.right * h_input;
-        moveDirection.y = 0;
+        if(moveDirection != Vector3.zero)
+        {
+            Vector3 worldMoveDirection = orientation.TransformDirection(moveDirection);
+            Vector3 flatMoveDirection = worldMoveDirection;
+            flatMoveDirection.y = 0;
 
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(flatMoveDirection * nowSpeed * 10f, ForceMode.Force);
+        }
     }
 
     private void SpeedControl()
@@ -110,7 +121,7 @@ public class Player_Move : MonoBehaviour
 
     private void Sprint()
     {
-        if (Input.GetMouseButton(1))
+        if (aimAction.ReadValue<float>() != 0)
         {
             isSprint = false;
             nowSpeed = moveSpeed - 2f;
@@ -127,7 +138,7 @@ public class Player_Move : MonoBehaviour
             isRestoreStamina = false;
         }
         
-        if (!isRestoreStamina && Input.GetKey(sprintKey) && ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))) & !Input.GetKey(KeyCode.S))
+        if (!isRestoreStamina && sprintAction.ReadValue<float>() != 0 && moveDirection != Vector3.zero)
         {
             isSprint = true;
             nowSpeed = sprintSpeed;
