@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -24,11 +25,13 @@ public class Camera_Controller : MonoBehaviour
     private Vector2 frameVelocity;
 
     [Header("ETC")]
-    internal static Camera mainCam;
+    private static CinemachineVirtualCamera virtualCamera;
+    private CinemachineBasicMultiChannelPerlin noise;
 
     void Start()
     {
-        mainCam = Camera.main;
+        virtualCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+        noise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
         primaryProfile.TryGet(out vignette);
         primaryProfile.TryGet(out chromatic);
@@ -58,14 +61,26 @@ public class Camera_Controller : MonoBehaviour
         if (Input.GetKey(Player_Shot.aimKey) && !Player_Shot.isReload)
         {
             Player_Shot.isAim = true;
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 32.5f, 0.025f);
+            virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, 32.5f, 0.1f);
+            noise.m_AmplitudeGain = 0.75f;
             vignette.smoothness.value = Mathf.Lerp(vignette.smoothness.value, 0.45f, 0.025f);
         }
         else
         {
             Player_Shot.isAim = false;
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 60f, 0.025f);
+            virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, 60f, 0.1f);
+            noise.m_AmplitudeGain = 2f;
             vignette.smoothness.value = Mathf.Lerp(vignette.smoothness.value, 0.2f, 0.025f);
+        }
+
+        if (Player_Move.isSprint)
+        {
+            noise.m_AmplitudeGain = 5f;
+            noise.m_FrequencyGain = 3f;
+        }
+        else if (!Player_Move.isSprint)
+        {
+            noise.m_FrequencyGain = 1f;
         }
     }
 
@@ -83,6 +98,6 @@ public class Camera_Controller : MonoBehaviour
 
     internal static void ShotFoV()
     {
-        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, mainCam.fieldOfView - 15f, 0.25f);
+        virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, virtualCamera.m_Lens.FieldOfView - 15f, 0.25f);
     }
 }
