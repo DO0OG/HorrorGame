@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -634,7 +634,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.03956011, y: -0.7059993, z: 0.039560106, w: 0.7059993}
+  m_LocalRotation: {x: 0.024029527, y: -0.70604813, z: 0.023985319, w: 0.7073496}
   m_LocalPosition: {x: 0, y: 0.15999985, z: 0.092}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1582,7 +1582,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991791912}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.03956011, y: -0.7059993, z: 0.039560106, w: 0.7059993}
+  m_LocalRotation: {x: 0.024029527, y: -0.70604813, z: 0.023985319, w: 0.7073496}
   m_LocalPosition: {x: 0, y: 4.16, z: 0.092}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1608,7 +1608,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 1069892514680913298}
+  m_LookAt: {fileID: 663139934}
   m_Follow: {fileID: 637131162}
   m_Lens:
     FieldOfView: 60
@@ -1622,8 +1622,8 @@ MonoBehaviour:
     FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
   m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
+    m_BlendHint: 1
+    m_InheritPosition: 1
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
@@ -2148,8 +2148,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 2
-  m_FrequencyGain: 1
+  m_AmplitudeGain: 2.000001
+  m_FrequencyGain: 0.9999998
   mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1459528887
 GameObject:
