@@ -27,15 +27,13 @@ public class Camera_Controller : MonoBehaviour
     [Header("ETC")]
     private static CinemachineVirtualCamera virtualCamera;
     private CinemachineBasicMultiChannelPerlin noise;
+    private CinemachineComposer composer;
 
     void Start()
     {
         virtualCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         noise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-        virtualCamera.m_Lens.FieldOfView = Mathf.Clamp(virtualCamera.m_Lens.FieldOfView, 32.5f, 60f);
-        noise.m_AmplitudeGain = Mathf.Clamp(noise.m_AmplitudeGain, 2f, 5f);
-        noise.m_FrequencyGain = Mathf.Lerp(noise.m_FrequencyGain, 0.75f, 3f);
+        composer = virtualCamera.GetCinemachineComponent<CinemachineComposer>();
 
         primaryProfile.TryGet(out vignette);
         primaryProfile.TryGet(out chromatic);
@@ -81,10 +79,14 @@ public class Camera_Controller : MonoBehaviour
         {
             noise.m_AmplitudeGain = Mathf.Lerp(noise.m_AmplitudeGain, 5f, 0.1f);
             noise.m_FrequencyGain = Mathf.Lerp(noise.m_FrequencyGain, 3f, 0.1f);
+            composer.m_DeadZoneWidth = Mathf.Lerp(composer.m_DeadZoneWidth, 0, 0.1f);
+            composer.m_DeadZoneHeight = Mathf.Lerp(composer.m_DeadZoneHeight, 0, 0.1f);
         }
         else if (!Player_Move.isSprint)
         {
             noise.m_FrequencyGain = Mathf.Lerp(noise.m_FrequencyGain, 1f, 0.1f);
+            composer.m_DeadZoneWidth = Mathf.Lerp(composer.m_DeadZoneWidth, 0.25f, 0.1f);
+            composer.m_DeadZoneHeight = Mathf.Lerp(composer.m_DeadZoneHeight, 0.25f, 0.1f);
         }
     }
 

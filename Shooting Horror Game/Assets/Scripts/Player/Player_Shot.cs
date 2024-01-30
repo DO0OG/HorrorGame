@@ -16,6 +16,8 @@ public class Player_Shot : MonoBehaviour
     [SerializeField] private GameObject casingPrefab;
     [SerializeField] private float destroyTime = 3f;
     [SerializeField] private int ammo = 8;
+    [SerializeField] private int currentMagIndex = 0;
+    [SerializeField] private List<int> mags = new List<int>();
 
     [Header("MuzzleFlash")]
     [SerializeField] private VisualEffect muzzleFlash;
@@ -47,6 +49,7 @@ public class Player_Shot : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
         ammoCanvas.alpha = 0f;
+        mags.Add(ammo);
     }
 
     // Update is called once per frame
@@ -64,6 +67,7 @@ public class Player_Shot : MonoBehaviour
         {
             outOfAmmo = true;
         }
+
         anim.SetInteger(PlayerAnimParameter.Ammo, ammo);
 
         anim.SetBool(PlayerAnimParameter.OutOfAmmo, outOfAmmo);
@@ -112,12 +116,12 @@ public class Player_Shot : MonoBehaviour
         }
         else if(Input.GetKeyUp(reloadKey))
         {
-            if (checkTime <= 0.5f)
+            if (checkTime <= 0.5f && mags.Count != 0)
             {
                 checkTime = 0;
                 StartCoroutine(Reload());
             }
-            else if (checkTime > 0.5f)
+            else if (checkTime > 0.5f || mags.Count == 0)
             {
                 checkTime = 0;
                 ammoCheck = false;
@@ -149,11 +153,26 @@ public class Player_Shot : MonoBehaviour
         muzzleLight.SetActive(true);
     }
 
+
+    // 장전 시 탄창에 탄이 남아있을 경우 해당 탄창을 버리지 않고 보관
+    // 가장 처음 장전부터 순서를 매김
+    // 이후 재장전 시 가장 앞 순서의 탄창부터 사용
+    private void MagChange()
+    {
+        int magLength = mags.Count;
+
+        if (mags[currentMagIndex] > 0)
+        {
+            mags[currentMagIndex] = ammo;
+        }
+    }
+
     private IEnumerator Reload()
     {
         if (!isReload)
         {
             isReload = true;
+            MagChange();
             anim.SetTrigger(PlayerAnimParameter.Reload);
             if (ammo != 0) ammo = 1;
             ammo += 8;
