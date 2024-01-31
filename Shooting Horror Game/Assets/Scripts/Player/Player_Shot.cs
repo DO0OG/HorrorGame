@@ -153,35 +153,28 @@ public class Player_Shot : MonoBehaviour
         muzzleLight.SetActive(true);
     }
 
-
-    // 장전 시 탄창에 탄이 남아있을 경우 해당 탄창을 버리지 않고 보관
-    // 가장 처음 장전부터 순서를 매김
-    // 이후 재장전 시 가장 앞 순서의 탄창부터 사용
     private void MagChange()
     {
         int magLength = mags.Count;
+        int lastAmmo = ammo;
 
         if(mags[currentMagIndex] > 0 && magLength != 0)
         {
             if (ammo != 0)
             {
-                mags.Add(ammo);
+                ammo = mags[currentMagIndex] + 1;
+                mags[currentMagIndex] = lastAmmo;
             }
             else if (ammo == 0)
             {
-                mags.Remove(currentMagIndex);
+                ammo = mags[currentMagIndex];
+                mags[currentMagIndex] = mags[currentMagIndex + 1];
+                mags.Remove(currentMagIndex + 1);
                 currentMagIndex--;
             }
         }
 
-        if(currentMagIndex == magLength)
-        {
-            currentMagIndex = 0;
-        }
-        else
-        {
-            currentMagIndex++;
-        }
+        currentMagIndex = (currentMagIndex + 1) % magLength;
     }
 
     private IEnumerator Reload()
