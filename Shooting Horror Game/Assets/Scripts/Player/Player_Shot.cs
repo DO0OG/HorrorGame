@@ -161,9 +161,26 @@ public class Player_Shot : MonoBehaviour
     {
         int magLength = mags.Count;
 
-        if (mags[currentMagIndex] > 0)
+        if(mags[currentMagIndex] > 0 && magLength != 0)
         {
-            mags[currentMagIndex] = ammo;
+            if (ammo != 0)
+            {
+                mags.Add(ammo);
+            }
+            else if (ammo == 0)
+            {
+                mags.Remove(currentMagIndex);
+                currentMagIndex--;
+            }
+        }
+
+        if(currentMagIndex == magLength)
+        {
+            currentMagIndex = 0;
+        }
+        else
+        {
+            currentMagIndex++;
         }
     }
 
@@ -171,12 +188,18 @@ public class Player_Shot : MonoBehaviour
     {
         if (!isReload)
         {
+            int lastAmmo = ammo;
+
             isReload = true;
+            
             MagChange();
             anim.SetTrigger(PlayerAnimParameter.Reload);
-            if (ammo != 0) ammo = 1;
-            ammo += 8;
+            
+            ammo = mags[currentMagIndex];
+            if (lastAmmo != 0) ammo += 1;
+            
             yield return new WaitForSeconds(2.8f);
+
             outOfAmmo = false;
             isReload = false;
         }
