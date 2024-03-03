@@ -1,16 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Player_Move : MonoBehaviour
+public class Player_Controller : MonoBehaviour
 {
     [Header("Keybinds")]
-    private PlayerInput playerInput;
-    private InputActionMap playerActionMap;
-    private InputAction moveAction;
-    private InputAction sprintAction;
-    private InputAction aimAction;
+    internal static KeyCode sprintKey = KeyCode.LeftShift;
 
     [Header("Movement")]
     [SerializeField] private Rigidbody rb;
@@ -24,6 +19,8 @@ public class Player_Move : MonoBehaviour
     [SerializeField] private float stamina;
     [SerializeField] private float maxStamina;
     private Vector3 moveDirection;
+    [SerializeField] private float h_input;
+    [SerializeField] private float v_input;
 
     [Header("Check")]
     internal static bool isSprint = false;
@@ -42,28 +39,11 @@ public class Player_Move : MonoBehaviour
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
 
         rb.freezeRotation = true;
 
         maxStamina = stamina;
-
-        playerActionMap = playerInput.actions.FindActionMap("Player");
-        moveAction = playerActionMap.FindAction("Move");
-        sprintAction = playerActionMap.FindAction("Sprint");
-        aimAction = playerActionMap.FindAction("Aim");
-
-        moveAction.performed += ctx => {
-            Vector2 dir = ctx.ReadValue<Vector2>();
-            moveDirection = new Vector3(dir.x, 0, dir.y);
-            isMoving = true;
-        };
-
-        moveAction.canceled += ctx => {
-            moveDirection = Vector3.zero;
-            isMoving = false;
-        };
     }
 
     // Update is called once per frame
@@ -98,14 +78,16 @@ public class Player_Move : MonoBehaviour
 
     private void MovePlayer()
     {
-        if(moveDirection != Vector3.zero)
-        {
-            Vector3 worldMoveDirection = orientation.TransformDirection(moveDirection);
-            Vector3 flatMoveDirection = worldMoveDirection;
-            flatMoveDirection.y = 0;
+        h_input = Input.GetAxisRaw("Horizontal");
+        v_input = Input.GetAxisRaw("Vertical");
 
-            rb.AddForce(flatMoveDirection * nowSpeed * 10f, ForceMode.Force);
-        }
+        if (h_input != 0 || v_input != 0) isMoving = true;
+        else isMoving = false;
+
+        moveDirection = orientation.forward * v_input + orientation.right * h_input;
+        moveDirection.y = 0;
+
+        rb.AddForce(moveDirection.normalized * nowSpeed * 10f, ForceMode.Force);
     }
 
     private void SpeedControl()
@@ -121,7 +103,7 @@ public class Player_Move : MonoBehaviour
 
     private void Sprint()
     {
-        if (aimAction.ReadValue<float>() != 0)
+        if (Player_Shot.isAim)
         {
             isSprint = false;
             nowSpeed = moveSpeed - 2f;
@@ -137,8 +119,8 @@ public class Player_Move : MonoBehaviour
         {
             isRestoreStamina = false;
         }
-        
-        if (!isRestoreStamina && sprintAction.ReadValue<float>() != 0 && moveDirection != Vector3.zero)
+
+        if (!isRestoreStamina && Input.GetKey(sprintKey) && moveDirection != Vector3.zero)
         {
             isSprint = true;
             nowSpeed = sprintSpeed;
@@ -173,9 +155,5 @@ public class Player_Move : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            StartCoroutine(Camera_Movement.ShakeCamera(Camera.main.transform, 0.5f, 0.1f));
-        }
     }
 }

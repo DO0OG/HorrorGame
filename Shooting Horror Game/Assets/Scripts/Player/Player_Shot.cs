@@ -46,6 +46,9 @@ public class Player_Shot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         anim = GetComponentInChildren<Animator>();
 
         ammoCanvas.alpha = 0f;
@@ -57,6 +60,10 @@ public class Player_Shot : MonoBehaviour
     {
         if(Input.GetKeyDown(shotKey) && !isReload && ammo > 0 && !ammoCheck) Shot();
         if(!isReload) ReloadTimeCheck();
+
+        if (Input.GetKey(aimKey)) isAim = true;
+        else isAim = false;
+
         AnimControl();
         AmmoCheckSlider();
     }
