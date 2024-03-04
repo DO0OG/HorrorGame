@@ -15,7 +15,6 @@ public class Player_Shot : MonoBehaviour
     [Header("Bullet")]
     [SerializeField] private GameObject shootEffectPrefab;
     [SerializeField] private GameObject casingPrefab;
-    [SerializeField] private float destroyTime = 3f;
     [SerializeField] private int ammo = 8;
     [SerializeField] private int mags = 8;
 
@@ -106,7 +105,6 @@ public class Player_Shot : MonoBehaviour
         {
             GameObject shootEffect = Instantiate(shootEffectPrefab, hit.point + (hit.normal * 0.01f), Quaternion.LookRotation(hit.normal));
             shootEffect.transform.SetParent(hit.transform);
-            Destroy(shootEffect, destroyTime);
         }
 
         impulseSource.GenerateImpulse();
