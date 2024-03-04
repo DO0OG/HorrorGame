@@ -18,9 +18,9 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float dValue = 5f;
     [SerializeField] private float stamina;
     [SerializeField] private float maxStamina;
-    private Vector3 moveDirection;
     [SerializeField] private float h_input;
     [SerializeField] private float v_input;
+    private Vector3 moveDirection;
 
     [Header("Check")]
     internal static bool isSprint = false;

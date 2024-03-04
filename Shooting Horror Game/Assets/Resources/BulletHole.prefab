@@ -9547,7 +9547,7 @@ GameObject:
   - component: {fileID: 19900006}
   - component: {fileID: 11400002}
   m_Layer: 0
-  m_Name: WFX_BImpact Concrete + Hole Unlit
+  m_Name: BulletHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

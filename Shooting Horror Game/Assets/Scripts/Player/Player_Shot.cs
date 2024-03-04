@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,7 @@ public class Player_Shot : MonoBehaviour
     [SerializeField] private GameObject casingPrefab;
     [SerializeField] private float destroyTime = 3f;
     [SerializeField] private int ammo = 8;
-    [SerializeField] private int currentMagIndex = 0;
-    [SerializeField] private List<int> mags = new List<int>();
+    [SerializeField] private int mags = 8;
 
     [Header("MuzzleFlash")]
     [SerializeField] private VisualEffect muzzleFlash;
@@ -43,6 +43,9 @@ public class Player_Shot : MonoBehaviour
     [Header("Animation")]
     private Animator anim;
 
+    [Header("ETC")]
+    [SerializeField] private CinemachineImpulseSource impulseSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,9 +53,11 @@ public class Player_Shot : MonoBehaviour
         Cursor.visible = false;
 
         anim = GetComponentInChildren<Animator>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        shootEffectPrefab = Resources.Load<GameObject>("BulletHole");
+        casingPrefab = Resources.Load<GameObject>("Casing");
 
         ammoCanvas.alpha = 0f;
-        mags.Add(ammo);
     }
 
     // Update is called once per frame
@@ -61,7 +66,7 @@ public class Player_Shot : MonoBehaviour
         if(Input.GetKeyDown(shotKey) && !isReload && ammo > 0 && !ammoCheck) Shot();
         if(!isReload) ReloadTimeCheck();
 
-        if (Input.GetKey(aimKey)) isAim = true;
+        if (Input.GetKey(aimKey) && !isReload) isAim = true;
         else isAim = false;
 
         AnimControl();
@@ -88,11 +93,11 @@ public class Player_Shot : MonoBehaviour
     {
         if (outOfAmmo) return;
 
+        anim.SetTrigger(PlayerAnimParameter.Shot);
+
         ammo--;
         Ray ray = new Ray(firePoint.position, firePoint.forward);
         RaycastHit hit;
-
-        anim.SetTrigger(PlayerAnimParameter.Shot);
 
         GameObject casingEffect = Instantiate(casingPrefab, casingPoint);
         casingEffect.transform.SetParent(null);
@@ -104,7 +109,7 @@ public class Player_Shot : MonoBehaviour
             Destroy(shootEffect, destroyTime);
         }
 
-        Camera_Controller.ShotFoV();
+        impulseSource.GenerateImpulse();
         MuzzleFlash();
     }
 
@@ -123,12 +128,13 @@ public class Player_Shot : MonoBehaviour
         }
         else if(Input.GetKeyUp(reloadKey))
         {
-            if (checkTime <= 0.5f && mags.Count != 0)
+            if (checkTime <= 0.5f && mags > 0)
             {
                 checkTime = 0;
+                StopAllCoroutines();
                 StartCoroutine(Reload());
             }
-            else if (checkTime > 0.5f || mags.Count == 0)
+            else if (checkTime > 0.5f || mags == 0)
             {
                 checkTime = 0;
                 ammoCheck = false;
@@ -162,26 +168,14 @@ public class Player_Shot : MonoBehaviour
 
     private void MagChange()
     {
-        int magLength = mags.Count;
-        int lastAmmo = ammo;
-
-        if(mags[currentMagIndex] > 0 && magLength != 0)
+        ammo = Mathf.Clamp(ammo, 0, 8);
+        
+        while(ammo != 8)
         {
-            if (ammo != 0)
-            {
-                ammo = mags[currentMagIndex] + 1;
-                mags[currentMagIndex] = lastAmmo;
-            }
-            else if (ammo == 0)
-            {
-                ammo = mags[currentMagIndex];
-                mags[currentMagIndex] = mags[currentMagIndex + 1];
-                mags.Remove(currentMagIndex + 1);
-                currentMagIndex--;
-            }
+            if (mags <= 0) return;
+            ammo++;
+            mags--;
         }
-
-        currentMagIndex = (currentMagIndex + 1) % magLength;
     }
 
     private IEnumerator Reload()
@@ -195,7 +189,6 @@ public class Player_Shot : MonoBehaviour
             MagChange();
             anim.SetTrigger(PlayerAnimParameter.Reload);
             
-            ammo = mags[currentMagIndex];
             if (lastAmmo != 0) ammo += 1;
             
             yield return new WaitForSeconds(2.8f);
