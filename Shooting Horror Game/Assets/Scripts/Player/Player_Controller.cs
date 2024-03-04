@@ -22,18 +22,17 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float v_input;
     private Vector3 moveDirection;
 
-    [Header("Check")]
-    internal static bool isSprint = false;
-    internal static bool isMoving = false;
-    internal static bool isRestoreStamina = false;
-    internal static bool grounded = false;
-
     [Header("Ground Check")]
     [SerializeField] private float playerHeight;
     [SerializeField] private LayerMask Ground;
 
     [Header("Animator")]
     [SerializeField] private Animator anim;
+
+    private bool isSprint { get; set; }
+    private bool isMoving { get; set; }
+    private bool isRestoreStamina { get; set; }
+    private bool grounded { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -120,7 +119,7 @@ public class Player_Controller : MonoBehaviour
             isRestoreStamina = false;
         }
 
-        if (!isRestoreStamina && Input.GetKey(sprintKey) && moveDirection != Vector3.zero)
+        if (!isRestoreStamina && Input.GetKey(sprintKey) && isMoving)
         {
             isSprint = true;
             nowSpeed = sprintSpeed;

@@ -33,17 +33,16 @@ public class Player_Shot : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private Transform casingPoint;
 
-    [Header("Bools")]
-    [SerializeField] private bool outOfAmmo = false;
-    [SerializeField] private bool ammoCheck = false;
-    internal static bool isReload = false;
-    internal static bool isAim = false;
-
     [Header("Animation")]
     private Animator anim;
 
     [Header("ETC")]
     [SerializeField] private CinemachineImpulseSource impulseSource;
+
+    [SerializeField] private bool outOfAmmo { get; set; }
+    [SerializeField] private bool ammoCheck { get; set; }
+    private bool isReload { get; set; }
+    internal static bool isAim { get; set; }
 
     // Start is called before the first frame update
     void Start()
