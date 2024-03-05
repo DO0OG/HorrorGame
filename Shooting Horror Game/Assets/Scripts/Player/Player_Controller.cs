@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
+using UnityEngine.UIElements;
 
 public class Player_Controller : MonoBehaviour
 {
     [Header("Keybinds")]
     internal static KeyCode sprintKey = KeyCode.LeftShift;
+    internal static KeyCode crouchKey = KeyCode.LeftControl;
 
     [Header("Movement")]
     [SerializeField] private Rigidbody rb;
@@ -29,16 +32,20 @@ public class Player_Controller : MonoBehaviour
     [Header("Animator")]
     [SerializeField] private Animator anim;
 
+    CapsuleCollider capsuleCollider;
+
     private bool isSprint { get; set; }
     private bool isMoving { get; set; }
     private bool isRestoreStamina { get; set; }
     private bool grounded { get; set; }
+    private bool crouched { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
 
         rb.freezeRotation = true;
 
@@ -53,9 +60,11 @@ public class Player_Controller : MonoBehaviour
 
         if (!grounded) rb.AddForce(Vector3.down * gravityForce);
 
+        MovementControl();
         SpeedControl();
-        Sprint();
         AnimateControl();
+
+        if (grounded) Crouch();
 
         if (isSprint) DecreaseStamina();
         if (!isSprint && stamina != maxStamina) IncreaseStamina();
@@ -71,8 +80,15 @@ public class Player_Controller : MonoBehaviour
 
     private void AnimateControl()
     {
+        float multiplier = 1;
+
         anim.SetBool(PlayerAnimParameter.Move, isMoving);
         anim.SetBool(PlayerAnimParameter.Sprint, isSprint);
+        anim.SetBool(PlayerAnimParameter.Crouch, crouched);
+        if (crouched)
+            anim.SetFloat(PlayerAnimParameter.CrouchSpeed, multiplier / 2);
+        else
+            anim.SetFloat(PlayerAnimParameter.CrouchSpeed, multiplier);
     }
 
     private void MovePlayer()
@@ -89,7 +105,7 @@ public class Player_Controller : MonoBehaviour
         rb.AddForce(moveDirection.normalized * nowSpeed * 10f, ForceMode.Force);
     }
 
-    private void SpeedControl()
+    private void MovementControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
@@ -100,12 +116,28 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    private void Sprint()
+    private void Crouch()
+    {
+        if (Input.GetKeyDown(crouchKey) && !crouched)
+        {
+            capsuleCollider.height = playerHeight / 2;
+            rb.AddForce(Vector3.down * 10f, ForceMode.Impulse);
+            isSprint = false;
+            crouched = true;
+        }
+        if (Input.GetKeyUp(crouchKey))
+        {
+            capsuleCollider.height = playerHeight;
+            crouched = false;
+        }
+    }
+
+    private void SpeedControl()
     {
         if (Player_Shot.isAim)
         {
             isSprint = false;
-            nowSpeed = moveSpeed - 2f;
+            nowSpeed = moveSpeed / 2f;
             return;
         }
         if (stamina <= 0)
@@ -128,6 +160,10 @@ public class Player_Controller : MonoBehaviour
         {
             isSprint = false;
             nowSpeed = moveSpeed;
+        }
+        else if (crouched)
+        {
+            nowSpeed = moveSpeed / 2f;
         }
         else
         {
