@@ -18,9 +18,10 @@ public class Player_Shot : MonoBehaviour
     [SerializeField] private int ammo = 8;
     [SerializeField] private int mags = 8;
 
-    [Header("MuzzleFlash")]
+    [Header("Muzzle")]
     [SerializeField] private VisualEffect muzzleFlash;
     [SerializeField] private GameObject muzzleLight;
+    [SerializeField] private ParticleSystem muzzleSmoke;
 
     [Header("AmmoUI")]
     [SerializeField] private CanvasGroup ammoCanvas;
@@ -54,6 +55,7 @@ public class Player_Shot : MonoBehaviour
         impulseSource = GetComponent<CinemachineImpulseSource>();
         shootEffectPrefab = Resources.Load<GameObject>("BulletHole");
         casingPrefab = Resources.Load<GameObject>("Casing");
+        muzzleSmoke = muzzleFlash.gameObject.GetComponent<ParticleSystem>();
 
         ammoCanvas.alpha = 0f;
     }
@@ -108,6 +110,7 @@ public class Player_Shot : MonoBehaviour
 
         impulseSource.GenerateImpulse();
         MuzzleFlash();
+        muzzleSmoke.Play();
     }
 
     private void ReloadTimeCheck()
@@ -125,6 +128,12 @@ public class Player_Shot : MonoBehaviour
         }
         else if(Input.GetKeyUp(reloadKey))
         {
+            if (checkTime <= 0.5f && ammo == 9)
+            {
+                checkTime = 0;
+                return;
+            }
+
             if (checkTime <= 0.5f && mags > 0)
             {
                 checkTime = 0;

@@ -38,7 +38,7 @@ public class Player_Controller : MonoBehaviour
     private bool isMoving { get; set; }
     private bool isRestoreStamina { get; set; }
     private bool grounded { get; set; }
-    private bool crouched { get; set; }
+    private bool isCrouch { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -84,8 +84,8 @@ public class Player_Controller : MonoBehaviour
 
         anim.SetBool(PlayerAnimParameter.Move, isMoving);
         anim.SetBool(PlayerAnimParameter.Sprint, isSprint);
-        anim.SetBool(PlayerAnimParameter.Crouch, crouched);
-        if (crouched)
+        anim.SetBool(PlayerAnimParameter.Crouch, isCrouch);
+        if (isCrouch)
             anim.SetFloat(PlayerAnimParameter.CrouchSpeed, multiplier / 2);
         else
             anim.SetFloat(PlayerAnimParameter.CrouchSpeed, multiplier);
@@ -118,17 +118,17 @@ public class Player_Controller : MonoBehaviour
 
     private void Crouch()
     {
-        if (Input.GetKeyDown(crouchKey) && !crouched)
+        if (Input.GetKeyDown(crouchKey) && !isCrouch)
         {
             capsuleCollider.height = playerHeight / 2;
             rb.AddForce(Vector3.down * 10f, ForceMode.Impulse);
             isSprint = false;
-            crouched = true;
+            isCrouch = true;
         }
         if (Input.GetKeyUp(crouchKey))
         {
             capsuleCollider.height = playerHeight;
-            crouched = false;
+            isCrouch = false;
         }
     }
 
@@ -151,7 +151,7 @@ public class Player_Controller : MonoBehaviour
             isRestoreStamina = false;
         }
 
-        if (!isRestoreStamina && Input.GetKey(sprintKey) && isMoving)
+        if (!isRestoreStamina && Input.GetKey(sprintKey) && isMoving && !isCrouch)
         {
             isSprint = true;
             nowSpeed = sprintSpeed;
@@ -161,7 +161,7 @@ public class Player_Controller : MonoBehaviour
             isSprint = false;
             nowSpeed = moveSpeed;
         }
-        else if (crouched)
+        else if (isCrouch)
         {
             nowSpeed = moveSpeed / 2f;
         }

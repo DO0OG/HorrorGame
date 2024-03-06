@@ -6,15 +6,8 @@ using UnityEngine.Rendering;
 
 public class Camera_Controller : MonoBehaviour
 {
-    [Header("KeyBind")]
-    internal static KeyCode leftPeekKey = KeyCode.Q;
-    internal static KeyCode rightPeekKey = KeyCode.E;
-
     [Header("Transform")]
     [SerializeField] private Transform character;
-    public Transform origin;
-    public Transform leftPeek;
-    public Transform rightPeek;
 
     [Header("Force")]
     [SerializeField] private float sensitivity = 2;
@@ -33,7 +26,6 @@ public class Camera_Controller : MonoBehaviour
     void Update()
     {
         MouseControl();
-        Peek();
     }
 
     private void MouseControl()
@@ -46,15 +38,5 @@ public class Camera_Controller : MonoBehaviour
 
         transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.forward);
         character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
-    }
-
-    private void Peek()
-    {
-        if (Input.GetKey(leftPeekKey))
-            cineCam.Follow = leftPeek;
-        else if (Input.GetKey(rightPeekKey))
-            cineCam.Follow = rightPeek;
-        else
-            cineCam.Follow = origin;
     }
 }
