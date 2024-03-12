@@ -9,6 +9,7 @@ public class Player_Controller : MonoBehaviour
     [Header("Keybinds")]
     internal static KeyCode sprintKey = KeyCode.LeftShift;
     internal static KeyCode crouchKey = KeyCode.LeftControl;
+    internal static KeyCode flashKey = KeyCode.F;
 
     [Header("Movement")]
     [SerializeField] private Rigidbody rb;
@@ -32,7 +33,12 @@ public class Player_Controller : MonoBehaviour
     [Header("Animator")]
     [SerializeField] private Animator anim;
 
-    CapsuleCollider capsuleCollider;
+    [Header("FootStep")]
+    private AudioSource audioSource;
+
+    [Header("ETC")]
+    private CapsuleCollider capsuleCollider;
+    private Light flashLight;
 
     private bool isSprint { get; set; }
     private bool isMoving { get; set; }
@@ -41,13 +47,16 @@ public class Player_Controller : MonoBehaviour
     private bool isCrouch { get; set; }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
+        flashLight = GetComponentInChildren<Light>();
+        audioSource = GetComponent<AudioSource>();
 
         rb.freezeRotation = true;
+        flashLight.enabled = false;
 
         maxStamina = stamina;
     }
@@ -63,7 +72,9 @@ public class Player_Controller : MonoBehaviour
         MovementControl();
         SpeedControl();
         AnimateControl();
+        FootStep("Ground");
 
+        if (Input.GetKeyDown(flashKey)) flashLight.enabled = !flashLight.enabled; 
         if (grounded) Crouch();
 
         if (isSprint) DecreaseStamina();
@@ -121,7 +132,7 @@ public class Player_Controller : MonoBehaviour
         if (Input.GetKeyDown(crouchKey) && !isCrouch)
         {
             capsuleCollider.height = playerHeight / 2;
-            rb.AddForce(Vector3.down * 10f, ForceMode.Impulse);
+            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             isSprint = false;
             isCrouch = true;
         }
@@ -186,6 +197,25 @@ public class Player_Controller : MonoBehaviour
         {
             stamina += dValue * Time.deltaTime / 2;
         }
+    }
+
+    private void FootStep(string tag)
+    {
+        switch (tag)
+        {
+            case "Ground":
+                audioSource.clip = Resources.Load<AudioClip>("Player/FootStep/Walk");
+                break;
+        }
+
+        if (isSprint) audioSource.pitch = 1.5f;
+        else if (isCrouch) audioSource.pitch = 0.4f;
+        else audioSource.pitch = 0.775f;
+
+        if (isMoving)
+            audioSource.enabled = true;
+        else
+            audioSource.enabled = false;
     }
 
     private void OnCollisionEnter(Collision collision)

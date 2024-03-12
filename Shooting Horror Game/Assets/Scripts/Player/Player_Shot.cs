@@ -53,8 +53,8 @@ public class Player_Shot : MonoBehaviour
 
         anim = GetComponentInChildren<Animator>();
         impulseSource = GetComponent<CinemachineImpulseSource>();
-        shootEffectPrefab = Resources.Load<GameObject>("BulletHole");
-        casingPrefab = Resources.Load<GameObject>("Casing");
+        shootEffectPrefab = Resources.Load<GameObject>("Player/BulletHole");
+        casingPrefab = Resources.Load<GameObject>("Player/Casing");
         muzzleSmoke = muzzleFlash.gameObject.GetComponent<ParticleSystem>();
 
         ammoCanvas.alpha = 0f;

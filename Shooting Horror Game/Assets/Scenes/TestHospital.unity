@@ -2120,7 +2120,7 @@ GameObject:
   - component: {fileID: 681831157}
   m_Layer: 6
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
@@ -4207,7 +4207,7 @@ GameObject:
   - component: {fileID: 1488634596}
   m_Layer: 6
   m_Name: Floors
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4677,7 +4677,7 @@ GameObject:
   - component: {fileID: 1571237893}
   m_Layer: 6
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
@@ -4943,7 +4943,7 @@ GameObject:
   - component: {fileID: 1643276046}
   m_Layer: 6
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
@@ -6221,7 +6221,7 @@ PrefabInstance:
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.024029603
+      value: 0.0240296
       objectReference: {fileID: 0}
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
@@ -6231,7 +6231,7 @@ PrefabInstance:
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.023985386
+      value: 0.023985384
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6251,6 +6251,11 @@ PrefabInstance:
       propertyPath: bloodCG
       value: 
       objectReference: {fileID: 1772043781}
+    - target: {fileID: 2032838653199667092, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2265797454966268308, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
         type: 3}
       propertyPath: m_Camera
@@ -6311,6 +6316,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5691952876332867640, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
+        type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5691952876332867640, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
+        type: 3}
+      propertyPath: m_Pitch
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5691952876332867640, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5691952876332867640, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6628005583607685303, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
         type: 3}
       propertyPath: cineCam
@@ -6332,17 +6357,17 @@ PrefabInstance:
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.00000010803339
+      value: 0.00000010244547
       objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000089406946
+      value: 0.00000008940696
       objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000011175868
+      value: -0.000000009313225
       objectReference: {fileID: 0}
     - target: {fileID: 2106785936573434249, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
@@ -6419,6 +6444,11 @@ PrefabInstance:
       propertyPath: m_AnimatedTarget
       value: 
       objectReference: {fileID: 235208084}
+    - target: {fileID: 7766998152907168712, guid: 3386a4a5afd22d64d805b9e854a9420c,
+        type: 3}
+      propertyPath: m_DefaultBlend.m_Time
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7766998152907168712, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_ChildCameras.Array.size
