@@ -15,7 +15,7 @@ public class Player_Shot : MonoBehaviour
     [Header("Bullet")]
     [SerializeField] private GameObject shootEffectPrefab;
     [SerializeField] private GameObject casingPrefab;
-    [SerializeField] private int ammo = 8;
+    [SerializeField] internal static int ammo = 8;
     [SerializeField] private int mags = 8;
 
     [Header("Muzzle")]
@@ -45,6 +45,8 @@ public class Player_Shot : MonoBehaviour
     private bool isReload { get; set; }
     internal static bool isAim { get; set; }
 
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +58,7 @@ public class Player_Shot : MonoBehaviour
         shootEffectPrefab = Resources.Load<GameObject>("Player/BulletHole");
         casingPrefab = Resources.Load<GameObject>("Player/Casing");
         muzzleSmoke = muzzleFlash.gameObject.GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
 
         ammoCanvas.alpha = 0f;
     }
@@ -68,6 +71,8 @@ public class Player_Shot : MonoBehaviour
 
         if (Input.GetKey(aimKey) && !isReload) isAim = true;
         else isAim = false;
+
+        Debug.DrawLine(firePoint.position, firePoint.position + firePoint.forward * 10f);
 
         AnimControl();
         AmmoCheckSlider();

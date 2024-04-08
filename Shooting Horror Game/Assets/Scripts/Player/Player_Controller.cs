@@ -209,7 +209,7 @@ public class Player_Controller : MonoBehaviour
         }
 
         if (isSprint) audioSource.pitch = 1.5f;
-        else if (isCrouch) audioSource.pitch = 0.4f;
+        else if (isCrouch || Player_Shot.isAim) audioSource.pitch = 0.4f;
         else audioSource.pitch = 0.775f;
 
         if (isMoving)
