@@ -1127,12 +1127,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 19942254}
   m_SourcePrefab: {fileID: 100100000, guid: ec89eaad22bce364eabcdae8f401ca41, type: 3}
---- !u!20 &291318891 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 1815339224115059821, guid: d0d342d0b714609458d2b88ffd1bd799,
-    type: 3}
-  m_PrefabInstance: {fileID: 233570218757382723}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &308380957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2094,18 +2088,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 613a77867ef6d964aab8036e91e96c86, type: 3}
---- !u!114 &658300102 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7766998152907168712, guid: 3386a4a5afd22d64d805b9e854a9420c,
-    type: 3}
-  m_PrefabInstance: {fileID: 4356311238551358877}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 325a6a3050a061e4b8aa51386c30e8e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &681831155
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,6 +2885,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e00b420d123b944b9365009b3dfd075, type: 3}
+--- !u!1 &947197771 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5218823651572281656, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
+    type: 3}
+  m_PrefabInstance: {fileID: 2368958604251401566}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &959592297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4327,15 +4315,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 428016, guid: 2fa97d29375bda64080d41087c0c107c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.70299995
+      value: 1.703
       objectReference: {fileID: 0}
     - target: {fileID: 428016, guid: 2fa97d29375bda64080d41087c0c107c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.58403492
+      value: 3.584035
       objectReference: {fileID: 0}
     - target: {fileID: 428016, guid: 2fa97d29375bda64080d41087c0c107c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: .0299999993
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 428016, guid: 2fa97d29375bda64080d41087c0c107c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4343,7 +4331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 428016, guid: 2fa97d29375bda64080d41087c0c107c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 8.14603425e-08
+      value: 0.00000008146034
       objectReference: {fileID: 0}
     - target: {fileID: 428016, guid: 2fa97d29375bda64080d41087c0c107c, type: 3}
       propertyPath: m_LocalRotation.y
@@ -5411,12 +5399,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!225 &1772043781 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 2770010552028475153, guid: daa9c83c1204f0d4eb059194b0fae0e8,
-    type: 3}
-  m_PrefabInstance: {fileID: 1415371045}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1780868915
 GameObject:
   m_ObjectHideFlags: 0
@@ -6214,6 +6196,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraHolder
       objectReference: {fileID: 0}
+    - target: {fileID: 4395685499918261459, guid: d0d342d0b714609458d2b88ffd1bd799,
+        type: 3}
+      propertyPath: focusedObject
+      value: 
+      objectReference: {fileID: 947197771}
     - target: {fileID: 6078197044698471984, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6267,12 +6254,12 @@ PrefabInstance:
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.024029603
+      value: 0.024029613
       objectReference: {fileID: 0}
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.023985386
+      value: 0.023985395
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6287,16 +6274,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1640682537834910223, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
-        type: 3}
-      propertyPath: bloodCG
-      value: 
-      objectReference: {fileID: 1772043781}
-    - target: {fileID: 2265797454966268308, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 291318891}
     - target: {fileID: 5218823651572281656, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
         type: 3}
       propertyPath: m_Name
@@ -6352,11 +6329,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6628005583607685303, guid: d4afa6650c1c9cc48bbc6c34b4f12161,
-        type: 3}
-      propertyPath: cineCam
-      value: 
-      objectReference: {fileID: 658300102}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6373,17 +6345,17 @@ PrefabInstance:
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.00000010803339
+      value: 0.000000119209275
       objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000089406946
+      value: 0.000000059604638
       objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000011175868
+      value: -0.000000009313225
       objectReference: {fileID: 0}
     - target: {fileID: 2106785936573434249, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}

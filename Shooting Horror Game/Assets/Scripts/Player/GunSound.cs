@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class GunSound : MonoBehaviour
 {
-    private AudioSource audioSource;
+    private static AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -18,13 +18,13 @@ public class GunSound : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(Player_Shot.shotKey) && Player_Shot.ammo == 0)
-        {
-            audioSource.volume = 0.3f;
-            AudioClip clip = Resources.Load<AudioClip>($"Player/AmmoEmpty");
-            audioSource.PlayOneShot(clip);
-        }
+    }
 
+    public static void EmptySound()
+    {
+        audioSource.volume = 0.3f;
+        AudioClip clip = Resources.Load<AudioClip>($"Player/AmmoEmpty");
+        audioSource.PlayOneShot(clip);
     }
 
     void PlaySound(string name)

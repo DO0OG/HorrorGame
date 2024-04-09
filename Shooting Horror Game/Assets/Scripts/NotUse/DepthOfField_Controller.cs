@@ -18,10 +18,19 @@ public class DepthOfField_Controller : MonoBehaviour
     public float focusSpeed = 15f;
     public float maxFocusDistance = 50f;
 
+    public GameObject focusedObject;
+    private int focusedObjectLayerMask;
+
     private void Start()
     {
         // VolumeProfile에서 DepthOfField 설정을 가져오기
         volumeProfile.TryGet(out depthOfField);
+
+        // focusedObject의 레이어를 가져와서 레이캐스트에서 무시할 레이어 마스크를 설정
+        if (focusedObject != null)
+        {
+            focusedObjectLayerMask = 1 << focusedObject.layer;
+        }
     }
 
     // Update is called once per frame
@@ -30,8 +39,8 @@ public class DepthOfField_Controller : MonoBehaviour
         raycast = new Ray(transform.position, transform.forward * maxFocusDistance);
 
         isHit = false;
-
-        if (Physics.Raycast(raycast, out hit, maxFocusDistance))
+        // focusedObject의 레이어를 무시하고 레이캐스트 수행
+        if (Physics.Raycast(raycast, out hit, maxFocusDistance, ~focusedObjectLayerMask))
         {
             isHit = true;
             hitDistance = Vector3.Distance(transform.position, hit.point);

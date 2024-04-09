@@ -1,17 +1,11 @@
 using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VFX;
 
 public class Player_Shot : MonoBehaviour
 {
-    [Header("Keybinds")]
-    internal static KeyCode reloadKey = KeyCode.R;
-    internal static KeyCode shotKey = KeyCode.Mouse0;
-    internal static KeyCode aimKey = KeyCode.Mouse1;
-
     [Header("Bullet")]
     [SerializeField] private GameObject shootEffectPrefab;
     [SerializeField] private GameObject casingPrefab;
@@ -42,8 +36,8 @@ public class Player_Shot : MonoBehaviour
 
     [SerializeField] private bool outOfAmmo { get; set; }
     [SerializeField] private bool ammoCheck { get; set; }
-    private bool isReload { get; set; }
     internal static bool isAim { get; set; }
+    internal bool nowReload { get; set; }
 
     private AudioSource audioSource;
 
@@ -66,11 +60,7 @@ public class Player_Shot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(shotKey) && !isReload && ammo > 0 && !ammoCheck) Shot();
-        if(!isReload) ReloadTimeCheck();
-
-        if (Input.GetKey(aimKey) && !isReload) isAim = true;
-        else isAim = false;
+        ReloadTimeCheck(Player_Controller.isReload);
 
         Debug.DrawLine(firePoint.position, firePoint.position + firePoint.forward * 10f);
 
@@ -90,13 +80,11 @@ public class Player_Shot : MonoBehaviour
         anim.SetBool(PlayerAnimParameter.OutOfAmmo, outOfAmmo);
 
         anim.SetBool(PlayerAnimParameter.AmmoCheck, ammoCheck);
-
-        anim.SetBool(PlayerAnimParameter.Aim, isAim);
     }
 
-    private void Shot()
+    public void Shot()
     {
-        if (outOfAmmo) return;
+        if (outOfAmmo || (!Player_Controller.isReload && ammo < 0 && !ammoCheck)) return;
 
         anim.SetTrigger(PlayerAnimParameter.Shot);
 
@@ -118,38 +106,39 @@ public class Player_Shot : MonoBehaviour
         muzzleSmoke.Play();
     }
 
-    private void ReloadTimeCheck()
+    private void ReloadTimeCheck(bool isReload)
     {
-        if (Input.GetKey(reloadKey))
+        if (isReload)
         {
-            if(checkTime <= 3f)
+            if (checkTime <= 3f)
             {
                 checkTime += Time.deltaTime;
             }
-            if(checkTime > 0.5f)
+            if (checkTime > 0.5f)
             {
                 ammoCheck = true;
             }
         }
-        else if(Input.GetKeyUp(reloadKey))
-        {
-            if (checkTime <= 0.5f && ammo == 9)
-            {
-                checkTime = 0;
-                return;
-            }
+    }
 
-            if (checkTime <= 0.5f && mags > 0)
-            {
-                checkTime = 0;
-                StopAllCoroutines();
-                StartCoroutine(Reload());
-            }
-            else if (checkTime > 0.5f || mags == 0)
-            {
-                checkTime = 0;
-                ammoCheck = false;
-            }
+    public void ReloadFunc()
+    {
+        if (checkTime <= 0.5f && ammo == 9)
+        {
+            checkTime = 0;
+            return;
+        }
+
+        if (checkTime <= 0.5f && mags > 0)
+        {
+            checkTime = 0;
+            StopAllCoroutines();
+            StartCoroutine(Reload());
+        }
+        else if (checkTime > 0.5f || mags == 0)
+        {
+            checkTime = 0;
+            ammoCheck = false;
         }
     }
 
@@ -191,12 +180,12 @@ public class Player_Shot : MonoBehaviour
 
     private IEnumerator Reload()
     {
-        if (!isReload)
+        if (!Player_Controller.isReload)
         {
             int lastAmmo = ammo;
 
-            isReload = true;
-            
+            Player_Controller.isAim = false;
+
             MagChange();
             anim.SetTrigger(PlayerAnimParameter.Reload);
             
@@ -205,7 +194,6 @@ public class Player_Shot : MonoBehaviour
             yield return new WaitForSeconds(2.8f);
 
             outOfAmmo = false;
-            isReload = false;
         }
     }
 }

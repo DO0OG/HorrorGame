@@ -9948,7 +9948,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5218823651572281656}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -9986,7 +9986,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootEffectPrefab: {fileID: 0}
   casingPrefab: {fileID: 0}
-  ammo: 8
   mags: 8
   muzzleFlash: {fileID: 6623146284417023863}
   muzzleLight: {fileID: 699038270514934239}
@@ -10033,13 +10032,11 @@ MonoBehaviour:
   gravityForce: 5
   nowSpeed: 0
   moveSpeed: 2
-  sprintSpeed: 4
+  sprintSpeed: 3.5
   groundDrag: 5
   dValue: 15
   stamina: 100
   maxStamina: 0
-  h_input: 0
-  v_input: 0
   playerHeight: 5
   Ground:
     serializedVersion: 2
@@ -10122,7 +10119,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -10155,7 +10152,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -13062,7 +13059,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -13095,7 +13092,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

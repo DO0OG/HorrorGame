@@ -557,7 +557,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.4456959
+      - time: 0.41872096
         functionName: PlaySound
         data: AmmoTick
         objectReferenceParameter: {instanceID: 0}
@@ -607,7 +607,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.30873853
+      - time: 0.28369036
         functionName: PlaySound
         data: AmmoTick
         objectReferenceParameter: {instanceID: 0}
