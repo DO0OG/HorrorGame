@@ -108,7 +108,7 @@ public class Player_Shot : MonoBehaviour
 
     private void ReloadTimeCheck(bool isReload)
     {
-        if (isReload)
+        if (isReload && !nowReload)
         {
             if (checkTime <= 3f)
             {
@@ -184,6 +184,8 @@ public class Player_Shot : MonoBehaviour
         {
             int lastAmmo = ammo;
 
+            nowReload = true;
+            
             Player_Controller.isAim = false;
 
             MagChange();
@@ -194,6 +196,7 @@ public class Player_Shot : MonoBehaviour
             yield return new WaitForSeconds(2.8f);
 
             outOfAmmo = false;
+            nowReload = false;
         }
     }
 }

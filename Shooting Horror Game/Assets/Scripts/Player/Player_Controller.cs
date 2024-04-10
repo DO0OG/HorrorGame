@@ -155,7 +155,8 @@ public class Player_Controller : MonoBehaviour
 
         fireAction.started += ctx =>
         {
-            if(Player_Shot.ammo == 0) GunSound.EmptySound();
+            if (playerShot.nowReload) return;
+            if (Player_Shot.ammo == 0) GunSound.EmptySound();
             isFire = true;
             playerShot.Shot();
         };
@@ -166,6 +167,7 @@ public class Player_Controller : MonoBehaviour
 
         aimAction.started += ctx =>
         {
+            if (playerShot.nowReload) return;
             if (isSprint) isSprint = false;
             isAim = true;
         };
