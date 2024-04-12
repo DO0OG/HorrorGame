@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 82914827879718070}
   m_Layer: 0
   m_Name: Casing
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4872,7 +4872,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: e03ad7113ade04346a590b345f2f9977, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.467
+  m_Volume: 0.65
   m_Pitch: 1
   Loop: 0
   Mute: 0

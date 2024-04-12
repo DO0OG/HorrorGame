@@ -11,7 +11,7 @@ public class FieldOfView : MonoBehaviour
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private LayerMask obstructionMask;
 
-    [SerializeField] public bool canSeePlayer;
+    [SerializeField] public bool playerDetected;
 
     const float DELAY = 0.2f;
 
@@ -31,7 +31,7 @@ public class FieldOfView : MonoBehaviour
     private void Update()
     {
         DrawFOV();
-        if (canSeePlayer)
+        if (playerDetected)
         {
             Debug.Log("PLAYER");
         }
@@ -63,16 +63,16 @@ public class FieldOfView : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
-                    canSeePlayer = true;
+                    playerDetected = true;
                 }
                 else
-                    canSeePlayer = false;
+                    playerDetected = false;
             }
             else
-                canSeePlayer = false;
+                playerDetected = false;
         }
-        else if (canSeePlayer)
-            canSeePlayer = false;
+        else if (playerDetected)
+            playerDetected = false;
     }
 
     private void DrawFOV()
