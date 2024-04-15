@@ -959,7 +959,7 @@ PrefabInstance:
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.024029613
+      value: 0.0240296
       objectReference: {fileID: 0}
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
@@ -969,7 +969,7 @@ PrefabInstance:
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.023985395
+      value: 0.023985384
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1353,6 +1353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58bf7b85ef7f12746ae0ccc6ec1c763e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 2
   player: {fileID: 0}
   agent: {fileID: 0}
   fov: {fileID: 0}
@@ -1404,8 +1405,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2589461442cf2479a6726f155a219f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
+  currentHealth: 1111
+  isDead: 0
+  ableToKill: 0
 --- !u!1001 &1969014531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1422,12 +1424,12 @@ PrefabInstance:
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000119209275
+      value: 0.00000010244547
       objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000059604638
+      value: 0.00000008940696
       objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}

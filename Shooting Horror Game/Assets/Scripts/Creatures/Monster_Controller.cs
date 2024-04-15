@@ -9,6 +9,8 @@ using System.Linq;
 [RequireComponent(typeof(Monster_Health))]
 public class Monster_Controller : MonoBehaviour
 {
+    [SerializeField] internal Define.MonsterType type = Define.MonsterType.Common;
+
     [Header("Target")]
     [SerializeField] private GameObject player;
 
@@ -31,7 +33,9 @@ public class Monster_Controller : MonoBehaviour
     [SerializeField] private bool isWandering = false;
 
     const float DELAY = 0.2f;
+    internal float damage;
     Rigidbody rb;
+    Monster_Health mh;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -40,8 +44,11 @@ public class Monster_Controller : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         fov = GetComponent<FieldOfView>();
         rb = GetComponent<Rigidbody>();
+        mh = GetComponent<Monster_Health>();
+
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
+        TypeCheck(type);
         StartCoroutine(DetectRoutine());
     }
 
@@ -56,6 +63,37 @@ public class Monster_Controller : MonoBehaviour
             agent.speed = chasingSpeed;
         else
             agent.speed = normalSpeed;
+    }
+
+    private void TypeCheck(Define.MonsterType type)
+    {
+        switch (type)
+        {
+            case Define.MonsterType.Common:
+                mh.SetHealth(80);
+                mh.ableToKill = true;
+                soundDetectionRange = 20;
+                soundDetctionMinRange = 5;
+                damage = 25;
+                chasingSpeed = 3.5f;
+                normalSpeed = 1.5f;
+                break;
+            case Define.MonsterType.Ghost:
+                mh.SetHealth(20);
+                mh.ableToKill = true;
+                damage = 0;
+                chasingSpeed = 2.5f;
+                normalSpeed = 2.5f;
+                break;
+            case Define.MonsterType.Special:
+                mh.ableToKill = false;
+                soundDetectionRange = 40;
+                soundDetctionMinRange = 10;
+                damage = 50;
+                chasingSpeed = 4f;
+                normalSpeed = 2f;
+                break;
+        }
     }
 
     private IEnumerator DetectRoutine()

@@ -5,17 +5,12 @@ using UnityEngine;
 public class Monster_Health : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] public float maxHealth = 100f;
     [SerializeField] private float currentHealth;
+    internal float maxHealth;
 
     [Header("Bools")]
-    public static bool isDead = false;
-
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        SetHealth(maxHealth);
-    }
+    public bool isDead = false;
+    public bool ableToKill = false;
 
     // Update is called once per frame
     void Update()
@@ -25,7 +20,7 @@ public class Monster_Health : MonoBehaviour
 
     public void CheckHealth()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && ableToKill)
         {
             isDead = true;
             gameObject.SetActive(false);

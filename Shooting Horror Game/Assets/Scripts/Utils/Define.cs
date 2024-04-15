@@ -37,4 +37,11 @@ public class Define
 		Effect,
 		Max,
 	}
+
+	public enum MonsterType
+	{
+		Common,
+		Ghost,
+		Special,
+	}
 }
