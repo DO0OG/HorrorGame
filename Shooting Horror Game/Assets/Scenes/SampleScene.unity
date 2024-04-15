@@ -953,8 +953,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7073496
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.024029603
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.706048
       objectReference: {fileID: 0}
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
@@ -1192,6 +1202,7 @@ GameObject:
   - component: {fileID: 1915101646}
   - component: {fileID: 1915101650}
   - component: {fileID: 1915101652}
+  - component: {fileID: 1915101655}
   - component: {fileID: 1915101651}
   m_Layer: 0
   m_Name: Cube (2)
@@ -1349,7 +1360,7 @@ MonoBehaviour:
   soundDetctionMinRange: 5
   detectionMinSound: 0.6
   WANDER_INTERVAL: 7.5
-  WANDER_RADIUS: 10
+  WANDER_RADIUS: 15
   isChasing: 0
   isWandering: 0
 --- !u!54 &1915101654
@@ -1378,7 +1389,21 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
+--- !u!114 &1915101655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915101645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb2589461442cf2479a6726f155a219f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1001 &1969014531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1387,6 +1412,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.x

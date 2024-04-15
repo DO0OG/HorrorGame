@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
 
-[RequireComponent (typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class NormalCreature_Controller : MonoBehaviour
+[RequireComponent(typeof(Monster_Health))]
+public class Monster_Controller : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] private GameObject player;
@@ -28,6 +29,7 @@ public class NormalCreature_Controller : MonoBehaviour
     [SerializeField] private bool isWandering = false;
 
     const float DELAY = 0.2f;
+    Rigidbody rb;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -35,6 +37,8 @@ public class NormalCreature_Controller : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         fov = GetComponent<FieldOfView>();
+        rb = GetComponent<Rigidbody>();
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
         StartCoroutine(DetectRoutine());
     }
@@ -52,10 +56,11 @@ public class NormalCreature_Controller : MonoBehaviour
         {
             yield return wait;
 
-            if (!isChasing && !isWandering) // 추적 중이 아닐 때만 배회
-            {
+            if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
+                isChasing = false;
+
+            if (!isChasing && !isWandering)
                 StartCoroutine(Wander());
-            }
 
             DetectSight();
             DetectSounds();
@@ -64,6 +69,8 @@ public class NormalCreature_Controller : MonoBehaviour
 
     private IEnumerator Wander()
     {
+        if (isWandering) yield break;
+
         isWandering = true;
 
         // 랜덤한 위치 설정
@@ -86,6 +93,9 @@ public class NormalCreature_Controller : MonoBehaviour
     {
         if (fov.playerDetected)
         {
+            StopCoroutine(Wander());
+
+            isWandering = false;
             isChasing = true;
             lastSoundPosition = player.transform.position;
             agent.destination = lastSoundPosition;
@@ -110,6 +120,9 @@ public class NormalCreature_Controller : MonoBehaviour
                                where distanceToSound < soundDetectionRange
                                select player)
         {
+            StopCoroutine(Wander());
+
+            isWandering = false;
             isChasing = true;
             // 마지막으로 들린 사운드의 위치 업데이트
             lastSoundPosition = player.transform.position;
@@ -117,6 +130,7 @@ public class NormalCreature_Controller : MonoBehaviour
             agent.destination = lastSoundPosition;
 
             Debug.Log("Sound Detected");
+
             return;
         }
     }
