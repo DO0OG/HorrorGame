@@ -18,6 +18,8 @@ public class Monster_Controller : MonoBehaviour
     [SerializeField, Range(0, 100)] private float soundDetectionRange = 20.0f;
     [SerializeField, Range(0, 100)] private float soundDetctionMinRange = 5.0f;
     [SerializeField, Range(0, 1)] private float detectionMinSound = 0.6f;
+    [SerializeField] private float chasingSpeed = 3.5f;
+    [SerializeField] private float normalSpeed = 1.5f;
     private Vector3 lastSoundPosition;
 
     [Header("Wander")]
@@ -43,9 +45,17 @@ public class Monster_Controller : MonoBehaviour
         StartCoroutine(DetectRoutine());
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         StopAllCoroutines();
+    }
+
+    void Update()
+    {
+        if (isChasing)
+            agent.speed = chasingSpeed;
+        else
+            agent.speed = normalSpeed;
     }
 
     private IEnumerator DetectRoutine()

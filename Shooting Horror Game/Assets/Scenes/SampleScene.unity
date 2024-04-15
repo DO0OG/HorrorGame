@@ -959,7 +959,7 @@ PrefabInstance:
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.024029603
+      value: 0.024029613
       objectReference: {fileID: 0}
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
@@ -969,7 +969,7 @@ PrefabInstance:
     - target: {fileID: 6829411427022360884, guid: d0d342d0b714609458d2b88ffd1bd799,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.023985386
+      value: 0.023985395
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1329,7 +1329,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1359,6 +1359,8 @@ MonoBehaviour:
   soundDetectionRange: 20
   soundDetctionMinRange: 5
   detectionMinSound: 0.6
+  chasingSpeed: 3.5
+  normalSpeed: 1.5
   WANDER_INTERVAL: 7.5
   WANDER_RADIUS: 15
   isChasing: 0
@@ -1420,17 +1422,17 @@ PrefabInstance:
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.00000010803339
+      value: 0.000000119209275
       objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000089406946
+      value: 0.000000059604638
       objectReference: {fileID: 0}
     - target: {fileID: 312878824561029435, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000011175868
+      value: -0.000000009313225
       objectReference: {fileID: 0}
     - target: {fileID: 2106785936573434249, guid: 3386a4a5afd22d64d805b9e854a9420c,
         type: 3}
