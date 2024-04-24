@@ -96,7 +96,7 @@ public class Player_Health : MonoBehaviour
         // test code
         if (collision.gameObject.CompareTag("Monster"))
         {
-            DecreaseHealth(10);
+            DecreaseHealth(collision.gameObject.GetComponent<Monster_Controller>().damage);
         }
     }
 }

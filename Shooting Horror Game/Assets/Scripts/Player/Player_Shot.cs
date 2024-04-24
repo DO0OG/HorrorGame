@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.VFX;
 
@@ -95,10 +96,20 @@ public class Player_Shot : MonoBehaviour
         GameObject casingEffect = Instantiate(casingPrefab, casingPoint);
         casingEffect.transform.SetParent(null);
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             GameObject shootEffect = Instantiate(shootEffectPrefab, hit.point + (hit.normal * 0.01f), Quaternion.LookRotation(hit.normal));
             shootEffect.transform.SetParent(hit.transform);
+
+            if (hit.transform.CompareTag("Monster"))
+            {
+                Monster_Health monsterHealth = hit.transform.GetComponent<Monster_Health>();
+                if (monsterHealth != null)
+                {
+                    monsterHealth.TakeDamage(20);
+                }
+            }
+            // Debug.Log(hit.transform.name);
         }
 
         impulseSource.GenerateImpulse();

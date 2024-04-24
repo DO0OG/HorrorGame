@@ -23,14 +23,14 @@ public class GunSound : MonoBehaviour
     public static void EmptySound()
     {
         audioSource.volume = 0.3f;
-        AudioClip clip = Resources.Load<AudioClip>($"Player/AmmoEmpty");
+        AudioClip clip = Managers.Resource.LoadAudioClip("AmmoEmpty");
         audioSource.PlayOneShot(clip);
     }
 
     void PlaySound(string name)
     {
         audioSource.volume = 0.5f;
-        audioSource.clip = Resources.Load<AudioClip>($"Player/{name}");
+        audioSource.clip = Managers.Resource.LoadAudioClip($"{name}");
         audioSource.Play();
     }
 }

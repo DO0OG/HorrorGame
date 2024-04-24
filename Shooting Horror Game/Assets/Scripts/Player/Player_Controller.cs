@@ -269,7 +269,7 @@ public class Player_Controller : MonoBehaviour
         switch (tag)
         {
             case "Ground":
-                audioSource.clip = Resources.Load<AudioClip>("Player/FootStep/Walk");
+                audioSource.clip = Managers.Resource.LoadAudioClip("FootStep/Walk");
                 break;
         }
 
