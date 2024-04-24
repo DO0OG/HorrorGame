@@ -109,8 +109,7 @@ public class Player_Shot : MonoBehaviour
                     monsterHealth.TakeDamage(20);
                 }
             }
-
-            Debug.Log(hit.transform.name);
+            // Debug.Log(hit.transform.name);
         }
 
         impulseSource.GenerateImpulse();

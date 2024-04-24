@@ -847,7 +847,7 @@ GameObject:
   - component: {fileID: 4595827063828576981}
   - component: {fileID: 4871032934309650813}
   m_Layer: 3
-  m_Name: Point Light
+  m_Name: FlashLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -886,7 +886,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -13077,7 +13077,8 @@ AudioSource:
   m_GameObject: {fileID: 7804948924647184192}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -4286320295460964162, guid: aadc27c42eadc894eb798ff8af433204,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

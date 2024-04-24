@@ -40,8 +40,8 @@ public class Define
 
 	public enum MonsterType
 	{
-		Common,
-		Ghost,
+		Normal,
+		Scream,
 		Special,
 	}
 }

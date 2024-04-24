@@ -5,11 +5,12 @@ using UnityEngine.AI;
 using System.Linq;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Monster_Health))]
 public class Monster_Controller : MonoBehaviour
 {
-    [SerializeField] internal Define.MonsterType type = Define.MonsterType.Common;
+    [SerializeField] internal Define.MonsterType type = Define.MonsterType.Normal;
 
     [Header("Target")]
     [SerializeField] private GameObject player;
@@ -22,6 +23,7 @@ public class Monster_Controller : MonoBehaviour
     [SerializeField, Range(0, 1)] private float detectionMinSound = 0.6f;
     [SerializeField] private float chasingSpeed = 3.5f;
     [SerializeField] private float normalSpeed = 1.5f;
+    [SerializeField] private float attackRange = 5f;
     private Vector3 lastSoundPosition;
 
     [Header("Wander")]
@@ -35,6 +37,7 @@ public class Monster_Controller : MonoBehaviour
     const float DELAY = 0.2f;
     internal float damage;
     Rigidbody rb;
+    AudioSource audioSource;
     Monster_Health mh;
 
     // Start is called before the first frame update
@@ -44,6 +47,7 @@ public class Monster_Controller : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         fov = GetComponent<FieldOfView>();
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         mh = GetComponent<Monster_Health>();
 
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
@@ -69,7 +73,7 @@ public class Monster_Controller : MonoBehaviour
     {
         switch (type)
         {
-            case Define.MonsterType.Common:
+            case Define.MonsterType.Normal:
                 mh.SetHealth(80);
                 mh.ableToKill = true;
                 soundDetectionRange = 20;
@@ -78,7 +82,7 @@ public class Monster_Controller : MonoBehaviour
                 chasingSpeed = 3.5f;
                 normalSpeed = 1.5f;
                 break;
-            case Define.MonsterType.Ghost:
+            case Define.MonsterType.Scream:
                 mh.SetHealth(20);
                 mh.ableToKill = true;
                 damage = 0;
@@ -96,6 +100,22 @@ public class Monster_Controller : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if (fov.playerDetected && distanceToPlayer <= attackRange)
+        {
+            Debug.Log("Attack");
+        }
+    }
+
+    private void Scream()
+    {
+        AudioClip clip = Managers.Resource.LoadAudioClip($"Monster/Scream");
+        audioSource.PlayOneShot(clip);
+    }
+
     private IEnumerator DetectRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(DELAY);
@@ -110,6 +130,7 @@ public class Monster_Controller : MonoBehaviour
             if (!isChasing && !isWandering)
                 StartCoroutine(Wander());
 
+            Attack();
             DetectSight();
             DetectSounds();
         }
