@@ -87,16 +87,11 @@ public class Player_Health : MonoBehaviour
         restoreTimer = 0f;
         isRestore = false;
 
-        bloodCG.alpha += (10 / maxHealth);
+        bloodCG.alpha += (amount / maxHealth);
         bloodCG.alpha = Mathf.Clamp(bloodCG.alpha, 0f, 1f);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // test code
-        if (collision.gameObject.CompareTag("Monster"))
-        {
-            DecreaseHealth(collision.gameObject.GetComponent<Monster_Controller>().damage);
-        }
     }
 }

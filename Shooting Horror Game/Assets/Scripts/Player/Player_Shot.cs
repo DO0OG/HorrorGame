@@ -36,7 +36,7 @@ public class Player_Shot : MonoBehaviour
     [SerializeField] private CinemachineImpulseSource impulseSource;
 
     [SerializeField] private bool outOfAmmo { get; set; }
-    [SerializeField] private bool ammoCheck { get; set; }
+    internal bool ammoCheck { get; set; }
     internal static bool isAim { get; set; }
     internal bool nowReload { get; set; }
 

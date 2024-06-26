@@ -29,7 +29,7 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float dValue = 5f;
     [SerializeField] private float stamina;
     [SerializeField] private float maxStamina;
-    private Vector2 moveInput;
+    internal static Vector2 moveInput;
     private Vector3 moveDirection;
 
     [Header("Ground Check")]
@@ -44,7 +44,7 @@ public class Player_Controller : MonoBehaviour
 
     [Header("ETC")]
     private CapsuleCollider capsuleCollider;
-    private Light flashLight;
+    public Light flashLight;
 
     private bool isSprint { get; set; }
     private bool isMoving { get; set; }
@@ -155,7 +155,7 @@ public class Player_Controller : MonoBehaviour
 
         fireAction.started += ctx =>
         {
-            if (playerShot.nowReload) return;
+            if (playerShot.nowReload || playerShot.ammoCheck) return;
             if (Player_Shot.ammo == 0) GunSound.EmptySound();
             isFire = true;
             playerShot.Shot();
@@ -192,9 +192,10 @@ public class Player_Controller : MonoBehaviour
         float multiplier = 1;
 
         anim.SetBool(PlayerAnimParameter.Move, isMoving);
-        anim.SetBool(PlayerAnimParameter.Sprint, isSprint);
         anim.SetBool(PlayerAnimParameter.Crouch, isCrouch);
         anim.SetBool(PlayerAnimParameter.Aim, isAim);
+        if (!isMoving) isSprint = false;
+        anim.SetBool(PlayerAnimParameter.Sprint, isSprint);
 
         if (isCrouch)
             anim.SetFloat(PlayerAnimParameter.CrouchSpeed, multiplier / 2);

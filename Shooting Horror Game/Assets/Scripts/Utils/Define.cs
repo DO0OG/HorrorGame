@@ -41,7 +41,7 @@ public class Define
 	public enum MonsterType
 	{
 		Normal,
-		Scream,
+		Hollow,
 		Special,
 	}
 }

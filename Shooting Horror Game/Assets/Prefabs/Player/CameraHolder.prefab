@@ -28,14 +28,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128256874749651155}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.024029613, y: -0.706048, z: 0.023985395, w: 0.7073496}
-  m_LocalPosition: {x: 0, y: -0.44000006, z: 0.046}
+  m_LocalRotation: {x: 0.024029601, y: -0.706048, z: 0.023985386, w: 0.7073496}
+  m_LocalPosition: {x: 0, y: -0.44000006, z: 0.046000004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 560760108970512725}
   m_Father: {fileID: 6078197044698471984}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.891, y: -89.894, z: -0.06}
 --- !u!20 &1815339224115059821
 Camera:
   m_ObjectHideFlags: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RequiresOpaqueTextureOption: 1
   m_CameraType: 0
   m_Cameras:
   - {fileID: 6439028064340543060}
@@ -156,8 +156,8 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 0
-  m_BlendUpdateMethod: 0
+  m_UpdateMethod: 1
+  m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
     m_Time: 2

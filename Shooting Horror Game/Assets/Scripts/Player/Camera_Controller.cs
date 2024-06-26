@@ -13,9 +13,6 @@ public class Camera_Controller : MonoBehaviour
     [SerializeField] private float sensitivity = 2;
     [SerializeField] private float smoothing = 1.5f;
 
-    [Header("PostProcess")]
-    [SerializeField] private VolumeProfile primaryProfile;
-
     [Header("Velocity")]
     private Vector2 velocity;
     private Vector2 frameVelocity;
@@ -23,7 +20,7 @@ public class Camera_Controller : MonoBehaviour
     [Header("Camera")]
     public CinemachineStateDrivenCamera cineCam;
 
-    void Update()
+    void LateUpdate()
     {
         MouseControl();
     }
