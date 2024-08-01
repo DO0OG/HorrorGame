@@ -98,9 +98,6 @@ public class Player_Shot : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            GameObject shootEffect = Instantiate(shootEffectPrefab, hit.point + (hit.normal * 0.01f), Quaternion.LookRotation(hit.normal));
-            shootEffect.transform.SetParent(hit.transform);
-
             if (hit.transform.CompareTag("Monster"))
             {
                 Monster_Health monsterHealth = hit.transform.GetComponent<Monster_Health>();
@@ -108,6 +105,11 @@ public class Player_Shot : MonoBehaviour
                 {
                     monsterHealth.TakeDamage(20);
                 }
+            }
+            if (!hit.transform.CompareTag("Monster"))
+            {
+                GameObject shootEffect = Instantiate(shootEffectPrefab, hit.point + (hit.normal * 0.01f), Quaternion.LookRotation(hit.normal));
+                shootEffect.transform.SetParent(hit.transform);
             }
             // Debug.Log(hit.transform.name);
         }

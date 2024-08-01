@@ -291,9 +291,32 @@ public class Player_Controller : MonoBehaviour
         }
 
         if (isMoving)
-            audioSource.enabled = true;
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.loop = true;
+                audioSource.enabled = true;
+                audioSource.Play();
+            }
+        }
         else
-            audioSource.enabled = false;
+        {
+            if (audioSource.loop)
+            {
+                audioSource.loop = false;
+            }
+            StartCoroutine(DisableAudioSourceAfterPlayback());
+        }
+    }
+
+    private IEnumerator DisableAudioSourceAfterPlayback()
+    {
+        while (audioSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        audioSource.enabled = false;
     }
 
     private void OnCollisionEnter(Collision collision)

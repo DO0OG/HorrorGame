@@ -8,6 +8,7 @@ using System.Linq;
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Monster_Health))]
+[RequireComponent(typeof(FieldOfView))]
 public class Monster_Controller : MonoBehaviour
 {
     [SerializeField] internal Define.MonsterType type = Define.MonsterType.Normal;
@@ -55,11 +56,12 @@ public class Monster_Controller : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         mh = GetComponent<Monster_Health>();
         ph = player.GetComponent<Player_Health>();
-        meshRenderer = GetComponent<SkinnedMeshRenderer>();
 
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
         TypeCheck(type);
+        if(type == Define.MonsterType.Hollow)
+            meshRenderer = GetComponent<SkinnedMeshRenderer>();
 
         StartCoroutine(DetectRoutine());
     }
@@ -91,7 +93,7 @@ public class Monster_Controller : MonoBehaviour
         {
             case Define.MonsterType.Normal:
                 mh.SetHealth(80);
-                mh.ableToKill = true;
+                mh.ableToKill = false;
                 soundDetectionRange = 20;
                 soundDetctionMinRange = 5;
                 damage = 25;
