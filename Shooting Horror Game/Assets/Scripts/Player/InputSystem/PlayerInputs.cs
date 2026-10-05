@@ -98,6 +98,24 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Equip1"",
+                    ""type"": ""Button"",
+                    ""id"": ""a1f3c2d4-1111-4a2b-9c3d-0e5f6a7b8c9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Equip2"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2e4d3c5-2222-4b3c-8d4e-1f6a7b8c9d0e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -309,6 +327,28 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3d5e4f6-3333-4c4d-9e5f-2a7b8c9d0e1f"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Equip1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4e6f5a7-4444-4d5e-8f6a-3b8c9d0e1f2a"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Equip2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -386,6 +426,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_Function = m_Player.FindAction("Function", throwIfNotFound: true);
         m_Player_Flash = m_Player.FindAction("Flash", throwIfNotFound: true);
+        m_Player_Equip1 = m_Player.FindAction("Equip1", throwIfNotFound: true);
+        m_Player_Equip2 = m_Player.FindAction("Equip2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -455,6 +497,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_Function;
     private readonly InputAction m_Player_Flash;
+    private readonly InputAction m_Player_Equip1;
+    private readonly InputAction m_Player_Equip2;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -467,6 +511,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @Function => m_Wrapper.m_Player_Function;
         public InputAction @Flash => m_Wrapper.m_Player_Flash;
+        public InputAction @Equip1 => m_Wrapper.m_Player_Equip1;
+        public InputAction @Equip2 => m_Wrapper.m_Player_Equip2;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -500,6 +546,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Flash.started += instance.OnFlash;
             @Flash.performed += instance.OnFlash;
             @Flash.canceled += instance.OnFlash;
+            @Equip1.started += instance.OnEquip1;
+            @Equip1.performed += instance.OnEquip1;
+            @Equip1.canceled += instance.OnEquip1;
+            @Equip2.started += instance.OnEquip2;
+            @Equip2.performed += instance.OnEquip2;
+            @Equip2.canceled += instance.OnEquip2;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -528,6 +580,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Flash.started -= instance.OnFlash;
             @Flash.performed -= instance.OnFlash;
             @Flash.canceled -= instance.OnFlash;
+            @Equip1.started -= instance.OnEquip1;
+            @Equip1.performed -= instance.OnEquip1;
+            @Equip1.canceled -= instance.OnEquip1;
+            @Equip2.started -= instance.OnEquip2;
+            @Equip2.performed -= instance.OnEquip2;
+            @Equip2.canceled -= instance.OnEquip2;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -600,5 +658,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnFunction(InputAction.CallbackContext context);
         void OnFlash(InputAction.CallbackContext context);
+        void OnEquip1(InputAction.CallbackContext context);
+        void OnEquip2(InputAction.CallbackContext context);
     }
 }

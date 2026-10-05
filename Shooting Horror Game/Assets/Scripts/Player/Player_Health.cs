@@ -17,10 +17,13 @@ public class Player_Health : MonoBehaviour
     [Header("Blood")]
     [SerializeField] private CanvasGroup bloodCG;
 
+    public bool IsDead => isDead;
+
     // Start is called before the first frame update
     void Start()
     {
-        SetMaxHealth(50);
+        // 난이도에 따라 최대 체력 결정 (Normal : 100)
+        SetMaxHealth(GameManager.Data.playerMaxHealth);
 
         isDead = false;
         bloodCG.alpha = 0;
@@ -81,6 +84,8 @@ public class Player_Health : MonoBehaviour
 
     public void DecreaseHealth(float amount)
     {
+        if (isDead) return;
+
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
@@ -89,6 +94,10 @@ public class Player_Health : MonoBehaviour
 
         bloodCG.alpha += (amount / maxHealth);
         bloodCG.alpha = Mathf.Clamp(bloodCG.alpha, 0f, 1f);
+
+        // 체력이 모두 닳으면 사망 → 몬스터가 처형을 진행함
+        if (currentHealth <= 0f)
+            isDead = true;
     }
 
     private void OnCollisionEnter(Collision collision)

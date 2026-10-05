@@ -31,6 +31,7 @@ public class Door : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && trig)
         {
             open = !open;
+            MonsterNoiseSystem.Emit(MonsterNoiseKind.Door, transform.position, 0.65f, 14f);
         }
         if (trig)
         {

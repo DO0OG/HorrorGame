@@ -44,6 +44,15 @@ public class Monster_Health : MonoBehaviour
             return;
         }
 
+        // 총기로 죽일 수 없는 몬스터는 데미지 대신 일시적으로 경직됨
+        if (!ableToKill)
+        {
+            Monster_Controller controller = GetComponent<Monster_Controller>();
+            if (controller != null)
+                controller.Stun(GameManager.Data.stunDuration);
+            return;
+        }
+
         currentHealth -= damage;
 
         Debug.Log(currentHealth);

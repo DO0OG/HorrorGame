@@ -14,4 +14,8 @@ public static class PlayerAnimParameter
     public static readonly int OutOfAmmo = Animator.StringToHash("OutOfAmmo");
     public static readonly int Ammo = Animator.StringToHash("Ammo");
     public static readonly int AmmoCheck = Animator.StringToHash("AmmoCheck");
+    public static readonly int Draw = Animator.StringToHash("Draw");
+    public static readonly int DrawSpeed = Animator.StringToHash("DrawSpeed");
+    public static readonly int Idle = Animator.StringToHash("Idle");
+    public static readonly int WalkState = Animator.StringToHash("walk");   // Base Layer 이동 상태 이름
 }

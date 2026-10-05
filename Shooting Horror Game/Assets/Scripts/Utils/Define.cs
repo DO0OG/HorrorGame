@@ -44,4 +44,17 @@ public class Define
 		Hollow,
 		Special,
 	}
+
+	public enum Difficulty
+	{
+		Easy,
+		Normal,
+		Hard,
+	}
+
+	public enum EquipType
+	{
+		Gun,
+		Flashlight,
+	}
 }

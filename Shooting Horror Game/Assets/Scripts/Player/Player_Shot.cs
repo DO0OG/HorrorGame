@@ -8,19 +8,22 @@ using UnityEngine.VFX;
 public class Player_Shot : MonoBehaviour
 {
     [Header("Bullet")]
+    private const int MAG_CAPACITY = 8;
     [SerializeField] private GameObject shootEffectPrefab;
     [SerializeField] private GameObject casingPrefab;
     [SerializeField] internal static int ammo = 8;
-    [SerializeField] private int mags = 8;
+    [SerializeField] private int mags = 1;   // 보유 탄창 개수 (필드에서 주워서 획득)
 
     [Header("Muzzle")]
     [SerializeField] private VisualEffect muzzleFlash;
     [SerializeField] private GameObject muzzleLight;
     [SerializeField] private ParticleSystem muzzleSmoke;
 
-    [Header("AmmoUI")]
+    [Header("Ammo Inspection UI")]
     [SerializeField] private CanvasGroup ammoCanvas;
     [SerializeField] private Image fillImage;
+    [SerializeField, Min(1f)] private float inspectionFadeSpeed = 7f;
+    private Material ammoGaugeMaterial;
 
     [Header("Reload")]
     [SerializeField] private float checkTime;
@@ -39,6 +42,8 @@ public class Player_Shot : MonoBehaviour
     internal bool ammoCheck { get; set; }
     internal static bool isAim { get; set; }
     internal bool nowReload { get; set; }
+    public Material AmmoInspectionMaterial =>
+        fillImage != null ? fillImage.material : null;
 
     private AudioSource audioSource;
 
@@ -55,7 +60,15 @@ public class Player_Shot : MonoBehaviour
         muzzleSmoke = muzzleFlash.gameObject.GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
 
-        ammoCanvas.alpha = 0f;
+        if (ammoCanvas != null)
+        {
+            ammoCanvas.alpha = 0f;
+            ammoGaugeMaterial = DiegeticGaugeUtility.Configure(
+                ammoCanvas,
+                fillImage,
+                DiegeticGaugeUtility.AmmoColor,
+                true);
+        }
     }
 
     // Update is called once per frame
@@ -85,11 +98,13 @@ public class Player_Shot : MonoBehaviour
 
     public void Shot()
     {
+        if (Player_Controller.currentEquip != Define.EquipType.Gun) return;
         if (outOfAmmo || (!Player_Controller.isReload && ammo < 0 && !ammoCheck)) return;
 
         anim.SetTrigger(PlayerAnimParameter.Shot);
 
         ammo--;
+        MonsterNoiseSystem.Emit(MonsterNoiseKind.Gunshot, transform.position, 1f, 40f);
         Ray ray = new Ray(firePoint.position, firePoint.forward);
         RaycastHit hit;
 
@@ -134,9 +149,18 @@ public class Player_Shot : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 탄창 습득 (Item_MagazinePickup에서 호출)
+    /// </summary>
+    public void AddMagazine(int count)
+    {
+        mags += count;
+        Debug.Log($"Magazine +{count} (보유 탄창 : {mags})");
+    }
+
     public void ReloadFunc()
     {
-        if (checkTime <= 0.5f && ammo == 9)
+        if (checkTime <= 0.5f && ammo == MAG_CAPACITY + 1)
         {
             checkTime = 0;
             return;
@@ -155,22 +179,36 @@ public class Player_Shot : MonoBehaviour
         }
     }
 
+    public void CancelAmmoInspection()
+    {
+        checkTime = 0f;
+        ammoCheck = false;
+    }
+
     private void AmmoCheckSlider()
     {
-        if (ammoCheck) CanvasFadeIn(ammoCanvas);
-        else if(!ammoCheck) CanvasFadeOut(ammoCanvas);
-        if(ammo != 0) fillImage.material.SetFloat("_Spread", ammo * 0.1f + 0.1f);
-        else fillImage.material.SetFloat("_Spread", 0.1f);
+        if (ammoCanvas == null || fillImage == null)
+            return;
+
+        DiegeticGaugeUtility.Fade(
+            ammoCanvas,
+            ammoCheck,
+            inspectionFadeSpeed,
+            Time.deltaTime);
+
+        float normalizedAmmo = Mathf.Clamp01(ammo / (float)(MAG_CAPACITY + 1));
+        DiegeticGaugeUtility.SetLevel(
+            ammoGaugeMaterial,
+            fillImage,
+            normalizedAmmo,
+            DiegeticGaugeUtility.AmmoColor,
+            ammoCheck);
     }
 
-    private void CanvasFadeIn(CanvasGroup canvas)
+    private void OnDestroy()
     {
-        canvas.alpha = Mathf.Lerp(canvas.alpha, 1f, Time.deltaTime * 5f);
-    }
-
-    private void CanvasFadeOut(CanvasGroup canvas)
-    {
-        canvas.alpha = Mathf.Lerp(canvas.alpha, 0f, Time.deltaTime * 5f);
+        if (ammoGaugeMaterial != null)
+            Destroy(ammoGaugeMaterial);
     }
 
     private void MuzzleFlash()
@@ -181,14 +219,11 @@ public class Player_Shot : MonoBehaviour
 
     private void MagChange()
     {
-        ammo = Mathf.Clamp(ammo, 0, 8);
-        
-        while(ammo != 8)
-        {
-            if (mags <= 0) return;
-            ammo++;
-            mags--;
-        }
+        // 주워 놓은 탄창 하나를 통째로 교체
+        if (mags <= 0) return;
+
+        mags--;
+        ammo = MAG_CAPACITY;
     }
 
     private IEnumerator Reload()

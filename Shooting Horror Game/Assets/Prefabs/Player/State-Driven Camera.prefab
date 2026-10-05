@@ -213,8 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b6874ba00e2be46b527a5d9c93b818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiltAmount: 2.5
-  tiltSpeed: 5
+  tiltAmount: 3.5
+  tiltSpeed: 4
 --- !u!1 &5645107891831697881
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,8 +551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b6874ba00e2be46b527a5d9c93b818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiltAmount: 2.5
-  tiltSpeed: 5
+  tiltAmount: 3.5
+  tiltSpeed: 4
 --- !u!1 &7285164942241014454
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,8 +681,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b6874ba00e2be46b527a5d9c93b818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiltAmount: 2.5
-  tiltSpeed: 5
+  tiltAmount: 3.5
+  tiltSpeed: 4
 --- !u!1 &8080658428973695299
 GameObject:
   m_ObjectHideFlags: 0
